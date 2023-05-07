@@ -7,18 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5753E1E72A057D5E00F89362 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753E1E62A057D5E00F89362 /* Colors.swift */; };
 		57A864A32A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A864A22A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift */; };
 		57A864A52A03DAD8006A06D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A864A42A03DAD8006A06D9 /* ContentView.swift */; };
 		57A864A72A03DAD9006A06D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57A864A62A03DAD9006A06D9 /* Assets.xcassets */; };
 		57A864AA2A03DAD9006A06D9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57A864A92A03DAD9006A06D9 /* Preview Assets.xcassets */; };
+		57BFC03F2A0621C10001E716 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BFC03E2A0621C10001E716 /* ViewExtensions.swift */; };
+		57C54D422A04E1C600C03574 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C54D412A04E1C600C03574 /* LoginScreen.swift */; };
+		57C54D452A04F33B00C03574 /* CountryCodeAndPhNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C54D442A04F33B00C03574 /* CountryCodeAndPhNumberView.swift */; };
+		57E6AA832A05FF7B00E65649 /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA822A05FF7B00E65649 /* Dimensions.swift */; };
+		57E6AA852A06062100E65649 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA842A06062100E65649 /* Images.swift */; };
+		57E6AA872A060AEE00E65649 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA862A060AEE00E65649 /* Strings.swift */; };
+		57E6AA892A060F3100E65649 /* LoginBtnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA882A060F3100E65649 /* LoginBtnView.swift */; };
+		57E6AA8B2A06119800E65649 /* OTPScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA8A2A06119800E65649 /* OTPScreen.swift */; };
+		57F06A422A07CA75005EC298 /* LabelSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F06A412A07CA75005EC298 /* LabelSection.swift */; };
+		57F1D09D2A0522F2001914E8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1D09C2A0522F2001914E8 /* TestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5753E1E62A057D5E00F89362 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		57A8649F2A03DAD8006A06D9 /* TheMovieBookingPADC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheMovieBookingPADC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57A864A22A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieBookingPADCApp.swift; sourceTree = "<group>"; };
 		57A864A42A03DAD8006A06D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		57A864A62A03DAD9006A06D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57A864A92A03DAD9006A06D9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		57BFC03E2A0621C10001E716 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		57C54D412A04E1C600C03574 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		57C54D442A04F33B00C03574 /* CountryCodeAndPhNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeAndPhNumberView.swift; sourceTree = "<group>"; };
+		57E6AA822A05FF7B00E65649 /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
+		57E6AA842A06062100E65649 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		57E6AA862A060AEE00E65649 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		57E6AA882A060F3100E65649 /* LoginBtnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBtnView.swift; sourceTree = "<group>"; };
+		57E6AA8A2A06119800E65649 /* OTPScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPScreen.swift; sourceTree = "<group>"; };
+		57F06A412A07CA75005EC298 /* LabelSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSection.swift; sourceTree = "<group>"; };
+		57F1D09C2A0522F2001914E8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +54,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5753E1E52A057D4500F89362 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				5753E1E62A057D5E00F89362 /* Colors.swift */,
+				57E6AA822A05FF7B00E65649 /* Dimensions.swift */,
+				57E6AA842A06062100E65649 /* Images.swift */,
+				57E6AA862A060AEE00E65649 /* Strings.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		57A864962A03DAD8006A06D9 = {
 			isa = PBXGroup;
 			children = (
@@ -51,10 +84,14 @@
 		57A864A12A03DAD8006A06D9 /* TheMovieBookingPADC */ = {
 			isa = PBXGroup;
 			children = (
+				57BFC03D2A06218D0001E716 /* extensions */,
+				5753E1E52A057D4500F89362 /* utils */,
+				57C54D432A04F32100C03574 /* components */,
+				57C54D402A04E15E00C03574 /* screens */,
 				57A864A22A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift */,
-				57A864A42A03DAD8006A06D9 /* ContentView.swift */,
 				57A864A62A03DAD9006A06D9 /* Assets.xcassets */,
 				57A864A82A03DAD9006A06D9 /* Preview Content */,
+				57F1D09C2A0522F2001914E8 /* TestView.swift */,
 			);
 			path = TheMovieBookingPADC;
 			sourceTree = "<group>";
@@ -65,6 +102,34 @@
 				57A864A92A03DAD9006A06D9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		57BFC03D2A06218D0001E716 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				57BFC03E2A0621C10001E716 /* ViewExtensions.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
+		57C54D402A04E15E00C03574 /* screens */ = {
+			isa = PBXGroup;
+			children = (
+				57A864A42A03DAD8006A06D9 /* ContentView.swift */,
+				57C54D412A04E1C600C03574 /* LoginScreen.swift */,
+				57E6AA8A2A06119800E65649 /* OTPScreen.swift */,
+			);
+			path = screens;
+			sourceTree = "<group>";
+		};
+		57C54D432A04F32100C03574 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				57C54D442A04F33B00C03574 /* CountryCodeAndPhNumberView.swift */,
+				57E6AA882A060F3100E65649 /* LoginBtnView.swift */,
+				57F06A412A07CA75005EC298 /* LabelSection.swift */,
+			);
+			path = components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +203,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				57A864A52A03DAD8006A06D9 /* ContentView.swift in Sources */,
+				57E6AA872A060AEE00E65649 /* Strings.swift in Sources */,
+				57BFC03F2A0621C10001E716 /* ViewExtensions.swift in Sources */,
+				5753E1E72A057D5E00F89362 /* Colors.swift in Sources */,
+				57F1D09D2A0522F2001914E8 /* TestView.swift in Sources */,
 				57A864A32A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift in Sources */,
+				57C54D452A04F33B00C03574 /* CountryCodeAndPhNumberView.swift in Sources */,
+				57E6AA852A06062100E65649 /* Images.swift in Sources */,
+				57E6AA832A05FF7B00E65649 /* Dimensions.swift in Sources */,
+				57E6AA8B2A06119800E65649 /* OTPScreen.swift in Sources */,
+				57C54D422A04E1C600C03574 /* LoginScreen.swift in Sources */,
+				57F06A422A07CA75005EC298 /* LabelSection.swift in Sources */,
+				57E6AA892A060F3100E65649 /* LoginBtnView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

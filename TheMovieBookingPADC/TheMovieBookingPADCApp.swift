@@ -11,7 +11,10 @@ import SwiftUI
 struct TheMovieBookingPADCApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(isActive: false)
+        
+            
+            
         }
     }
 }
