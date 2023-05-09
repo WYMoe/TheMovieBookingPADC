@@ -21,44 +21,51 @@ struct OTPScreen: View {
     
     
     var body: some View {
-        ZStack{
-            Color(PRIMARY_COLOR)
-            VStack(spacing: 0.0) {
-                //logo
-                Image(IC_LOGO)
-                    .padding(.bottom,MARGIN_XXXLARGE)
-                
-                
-                //label section
-                LabelSection(label1: LABEL_SENT_OTP,label2: LABEL_ENTER_OTP)
-    
-                
-                //OTP Section
-                OTPSection(otp: $otp,isKeyboardShowing: $isKeyboardShowing)
-                
-                //Resend Code
-                ResendCodeView()
-                
-                
-                //Confirm btn
-                LoginBtnView(label: LABEL_CONFIRM_OTP,color: BTN_COLOR)
-                
-                
-                
-                
-            }.toolbar {
-                ToolbarItem(placement:.keyboard) {
-                  
-                
-                        Button(LABEL_DONE){
-                            isKeyboardShowing.toggle()
-                        }
-                        .frame(maxWidth: .infinity,alignment: .trailing)
+        NavigationStack {
+            ZStack{
+                Color(PRIMARY_COLOR)
+                VStack(spacing: 0.0) {
+                    //logo
+                    Image(IC_LOGO)
+                        .padding(.bottom,MARGIN_XXXLARGE)
                     
-                  
+                    
+                    //label section
+                    LabelSection(label1: LABEL_SENT_OTP,label2: LABEL_ENTER_OTP)
+        
+                    
+                    //OTP Section
+                    OTPSection(otp: $otp,isKeyboardShowing: $isKeyboardShowing)
+                    
+                    //Resend Code
+                    ResendCodeView()
+                    
+                    
+                    //Confirm btn
+                    NavigationLink {
+                       RegionScreen(locationText: "")
+                    }label: {
+                        LoginBtnView(label: LABEL_CONFIRM_OTP,color: BTN_COLOR)
+                    }
+                    
+                    
+                    
+                    
+                    
+                }.toolbar {
+                    ToolbarItem(placement:.keyboard) {
+                      
+                    
+                            Button(LABEL_DONE){
+                                isKeyboardShowing.toggle()
+                            }
+                            .frame(maxWidth: .infinity,alignment: .trailing)
+                        
+                      
+                    }
                 }
-            }
-        }.edgesIgnoringSafeArea([.top,.bottom])
+            }.edgesIgnoringSafeArea([.top,.bottom])
+        }
     }
 }
 

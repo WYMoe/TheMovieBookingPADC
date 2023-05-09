@@ -24,3 +24,8 @@ let LABEL_DONE  = "Done"
 
 let LABEL_DONT_RECEIVE = "Don’t receive OTP?"
 let LABEL_RESEND = " Resend code"
+
+let LABEL_PICKREGION = "Pick Region"
+let LABEL_SEARCH_LOCATION = "Search your location"
+
+let LABEL_CITIES = "Cities"

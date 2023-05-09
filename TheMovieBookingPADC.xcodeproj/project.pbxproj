@@ -12,9 +12,11 @@
 		57A864A52A03DAD8006A06D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A864A42A03DAD8006A06D9 /* ContentView.swift */; };
 		57A864A72A03DAD9006A06D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57A864A62A03DAD9006A06D9 /* Assets.xcassets */; };
 		57A864AA2A03DAD9006A06D9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57A864A92A03DAD9006A06D9 /* Preview Assets.xcassets */; };
+		57B651D32A0A095B00ACDF1D /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B651D22A0A095B00ACDF1D /* MainScreen.swift */; };
 		57BFC03F2A0621C10001E716 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BFC03E2A0621C10001E716 /* ViewExtensions.swift */; };
 		57C54D422A04E1C600C03574 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C54D412A04E1C600C03574 /* LoginScreen.swift */; };
 		57C54D452A04F33B00C03574 /* CountryCodeAndPhNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C54D442A04F33B00C03574 /* CountryCodeAndPhNumberView.swift */; };
+		57C727312A08087B00442D44 /* RegionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C727302A08087B00442D44 /* RegionScreen.swift */; };
 		57E6AA832A05FF7B00E65649 /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA822A05FF7B00E65649 /* Dimensions.swift */; };
 		57E6AA852A06062100E65649 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA842A06062100E65649 /* Images.swift */; };
 		57E6AA872A060AEE00E65649 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6AA862A060AEE00E65649 /* Strings.swift */; };
@@ -31,9 +33,11 @@
 		57A864A42A03DAD8006A06D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		57A864A62A03DAD9006A06D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57A864A92A03DAD9006A06D9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		57B651D22A0A095B00ACDF1D /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		57BFC03E2A0621C10001E716 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		57C54D412A04E1C600C03574 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		57C54D442A04F33B00C03574 /* CountryCodeAndPhNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeAndPhNumberView.swift; sourceTree = "<group>"; };
+		57C727302A08087B00442D44 /* RegionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionScreen.swift; sourceTree = "<group>"; };
 		57E6AA822A05FF7B00E65649 /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
 		57E6AA842A06062100E65649 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		57E6AA862A060AEE00E65649 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 				57A864A42A03DAD8006A06D9 /* ContentView.swift */,
 				57C54D412A04E1C600C03574 /* LoginScreen.swift */,
 				57E6AA8A2A06119800E65649 /* OTPScreen.swift */,
+				57C727302A08087B00442D44 /* RegionScreen.swift */,
+				57B651D22A0A095B00ACDF1D /* MainScreen.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -211,8 +217,10 @@
 				57C54D452A04F33B00C03574 /* CountryCodeAndPhNumberView.swift in Sources */,
 				57E6AA852A06062100E65649 /* Images.swift in Sources */,
 				57E6AA832A05FF7B00E65649 /* Dimensions.swift in Sources */,
+				57C727312A08087B00442D44 /* RegionScreen.swift in Sources */,
 				57E6AA8B2A06119800E65649 /* OTPScreen.swift in Sources */,
 				57C54D422A04E1C600C03574 /* LoginScreen.swift in Sources */,
+				57B651D32A0A095B00ACDF1D /* MainScreen.swift in Sources */,
 				57F06A422A07CA75005EC298 /* LabelSection.swift in Sources */,
 				57E6AA892A060F3100E65649 /* LoginBtnView.swift in Sources */,
 			);
