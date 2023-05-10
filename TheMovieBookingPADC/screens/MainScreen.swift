@@ -8,13 +8,46 @@
 import SwiftUI
 
 struct MainScreen: View {
+    
+
+    
     var body: some View {
-        ZStack{
-            Color(PRIMARY_COLOR)
-            VStack(spacing:0.0){
-                AppbarView()
-            }
-        }.edgesIgnoringSafeArea([.top,.bottom])
+        
+                
+                TabView{
+                    MoviesScreen()
+                        .tabItem {
+                            Text("Movies")
+                                .foregroundColor(Color(PRIMARY_DARK_COLOR))
+                            Image(systemName: "play.square.fill")
+                                .foregroundColor(Color(BTN_COLOR))
+                        }
+                    
+                    MoviesScreen()
+                        .tabItem {
+                            Text("Cinema")
+                                .foregroundColor(Color(PRIMARY_DARK_COLOR))
+                            Image("cinema tab icon")
+                                .foregroundColor(Color(BTN_COLOR))
+                        }
+                    MoviesScreen()
+                        .tabItem {
+                            Text("Ticket")
+                            Image("ticket tab icon")
+                        }
+                    MoviesScreen()
+                        .tabItem {
+                            Text("Profile")
+                            Image("profile tab icon")
+                        }
+                   
+                    
+                    
+                    
+                }//.foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                .accentColor(Color(BTN_COLOR))
+            
+         
     }
 }
 
@@ -24,40 +57,3 @@ struct MainScreen_Previews: PreviewProvider {
     }
 }
 
-struct AppbarView: View {
-    var body: some View {
-        HStack{
-            Image(systemName: IC_LOCATION)
-                .resizable()
-                .frame(width: 16,height: 16)
-                .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
-                .padding(.leading,28)
-            Text("Yangon")
-                .font(.system(size: 16))
-                .foregroundColor(Color((PRIMAYR_LIGHT_COLOR)))
-                .italic()
-                .fontWeight(.bold)
-            Spacer()
-            Image(systemName: IC_SEARCH)
-                .resizable()
-                .frame(width: 22,height: 22)
-                .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
-                .padding(.trailing,20)
-            
-            // Spacer()
-            Image(systemName: "bell.fill")
-                .resizable()
-                .frame(width: 22,height: 22)
-                .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
-                .padding(.trailing,20)
-            //Spacer()
-            Image(systemName: "qrcode.viewfinder")
-                .resizable()
-                .frame(width: 22,height: 22)
-                .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
-                .padding(.trailing,28)
-            
-            
-        }
-    }
-}

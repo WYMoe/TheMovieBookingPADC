@@ -94,3 +94,90 @@
 //        }
 //    }
 //}
+
+import SwiftUI
+
+struct MoviesCarousel: View {
+    
+   let categoryName: String
+    
+   var body: some View {
+       VStack {
+           HStack {
+               Text(categoryName)
+                   .font(.system(size: 14, weight: .heavy))
+                   .padding(.vertical, 6)
+                   .padding(.horizontal, 12)
+                   .background(Color.green)
+                   .foregroundColor(.white)
+                   .cornerRadius(2)
+               Spacer()
+           }.padding(.horizontal)
+           .padding(.top)
+            
+           ScrollView(.horizontal, showsIndicators: false) {
+               HStack(alignment: .top, spacing: 16) {
+                   ForEach(1...5,id:\.self) { _ in
+                       GeometryReader { proxy in
+                           let scale = getScale(proxy: proxy)
+                           
+                                   
+                                       Image("Offer borard")
+                                           .resizable()
+                                         //  .scaledToFill()
+                                           .frame(width: 270)
+                                           .clipped()
+                                           .cornerRadius(8)
+                                           .overlay(
+                                               RoundedRectangle(cornerRadius: 8)
+                                                   .stroke(Color(white: 0.4))
+                                           )
+                                           .shadow(radius: 3)
+                           
+                                           //.resizable()
+                                           //.aspectRatio(contentMode: .fill)
+                                          // .frame(width: 180,height: 170)
+                                     
+                                   
+                               
+                            
+                               .scaleEffect(.init(width: scale, height: scale))
+                               //.animation(.spring(), value: 1)
+                               //.animation(.easeOut(duration: 1))
+                                
+                               .padding(.vertical)
+                       } //End Geometry
+                      .frame(width: 200,height: 200)
+                       .padding(.horizontal, 32)
+                       .padding(.vertical, 32)
+                   } //End ForEach
+                   Spacer()
+                       .frame(width: 16)
+               } //End HStack
+           }// End ScrollView
+       }//End VStack
+   }
+    
+   func getScale(proxy: GeometryProxy) -> CGFloat {
+       let midPoint: CGFloat = 125
+        
+       let viewFrame = proxy.frame(in: CoordinateSpace.global)
+        
+       var scale: CGFloat = 1.0
+       let deltaXAnimationThreshold: CGFloat = 125
+        
+       let diffFromCenter = abs(midPoint - viewFrame.origin.x - deltaXAnimationThreshold / 2)
+       if diffFromCenter < deltaXAnimationThreshold {
+           scale = 1 + (deltaXAnimationThreshold - diffFromCenter) / 500
+       }
+        
+       return scale
+   }
+}
+
+
+struct MoviesCarousel_Previews: PreviewProvider {
+   static var previews: some View {
+       MoviesCarousel(categoryName: "Top Movie")
+   }
+}
