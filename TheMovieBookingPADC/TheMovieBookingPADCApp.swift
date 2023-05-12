@@ -12,7 +12,7 @@ struct TheMovieBookingPADCApp: App {
     var body: some Scene {
         WindowGroup {
            // ContentView(isActive: false)
-            MainScreen()
+            MainScreen(selection: 1)
         
             
             

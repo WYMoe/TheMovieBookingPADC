@@ -9,51 +9,72 @@ import SwiftUI
 
 struct MainScreen: View {
     
-
-    
+    @State var selection:Int = 1
+    init(@State selection:Int) {
+        UITabBar.appearance().backgroundColor = UIColor(Color(PRIMARY_COLOR))
+        UITabBar.appearance().barTintColor = UIColor(Color(PRIMARY_COLOR))
+        self.selection = selection
+     }
     var body: some View {
-        
-                
-                TabView{
+
+
+        VStack {
+            TabView(selection:$selection){
                     MoviesScreen()
                         .tabItem {
+                            //Spacer()
                             Text("Movies")
-                                .foregroundColor(Color(PRIMARY_DARK_COLOR))
+                            
                             Image(systemName: "play.square.fill")
-                                .foregroundColor(Color(BTN_COLOR))
+                            //Spacer()
                         }
+                        .tag(1)
                     
-                    MoviesScreen()
+                    Text("\(selection)")
                         .tabItem {
                             Text("Cinema")
-                                .foregroundColor(Color(PRIMARY_DARK_COLOR))
-                            Image("cinema tab icon")
-                                .foregroundColor(Color(BTN_COLOR))
+                            
+                            Image(systemName: "tv.fill")
+                            
                         }
-                    MoviesScreen()
+                        .tag(2)
+                
+                Text("\(selection)")
                         .tabItem {
                             Text("Ticket")
-                            Image("ticket tab icon")
+                            Image(systemName: "ticket.fill")
                         }
-                    MoviesScreen()
-                        .tabItem {
+                        .tag(3)
+                
+                
+                Text("\(selection)")
+                    .tabItem {
                             Text("Profile")
-                            Image("profile tab icon")
-                        }
-                   
+                            Image(systemName: "person.fill")
+                        }.tag(4)
                     
                     
                     
-                }//.foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
-                .accentColor(Color(BTN_COLOR))
+                    
+                }
+            .accentColor(Color(BTN_COLOR))
             
+        }
+            
+
+            
+           
+            
+            
+        
+    
          
-    }
+  }
 }
 
 struct MainScreen_Previews: PreviewProvider {
     static var previews: some View {
-        MainScreen()
+        MainScreen(selection: 1)
     }
 }
 

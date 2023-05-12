@@ -11,18 +11,28 @@ import SwiftUI
 struct MoviesScreen: View {
     @State var isActiveNowShowing:Bool = true
     @State var isActiveComingSoon:Bool = false
+    
+   // var movies = [MovieItemView(isActiveComingSoon: false)]
     var body: some View {
         ZStack {
             Color(PRIMARY_COLOR)
             VStack(spacing:0.0) {
+          
+                //appbar
                 AppbarView()
+                
+                //promotion slider
                 SliderView()
                 
+                //tab btn
                 TabBtnRowSection(isActiveNowShowing: $isActiveNowShowing, isActiveComingSoon: $isActiveComingSoon)
                 
-            }
+                //nowshowing and coming soon
+                NowShowingAndComingSoonSection(isActiveComingSoon: $isActiveComingSoon)
+                
+            }.padding(.top,UIScreen.main.bounds.height * 0.06)
         }.edgesIgnoringSafeArea([.top,.bottom])
-           
+        
     }
 }
 
@@ -75,7 +85,7 @@ struct TabButtonView: View {
             .foregroundColor(Color(PRIMARY_COLOR))
             .background( isActive ? Color(BTN_COLOR) : Color(PRIMARY_DARK_COLOR))
             .cornerRadius(5)
-           
+        
     }
 }
 
@@ -109,3 +119,20 @@ struct TabBtnRowSection: View {
     }
 }
 
+
+struct NowShowingAndComingSoonSection: View {
+    @Binding var isActiveComingSoon:Bool
+    var body: some View {
+        ScrollView{
+            
+            LazyVGrid(columns: [GridItem(spacing: 0),
+                                GridItem(spacing: 0)],spacing: 80) {
+                ForEach(1...3,id: \.self) { _ in
+                    
+                    MovieItemView(isActiveComingSoon: $isActiveComingSoon)
+                }
+                
+            }.padding(.top, 28)
+        }.padding(.top,30)
+    }
+}
