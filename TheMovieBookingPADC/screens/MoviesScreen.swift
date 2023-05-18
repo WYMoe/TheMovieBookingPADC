@@ -11,27 +11,37 @@ import SwiftUI
 struct MoviesScreen: View {
     @State var isActiveNowShowing:Bool = true
     @State var isActiveComingSoon:Bool = false
-    
+    @State var isShowing:Bool = false
    // var movies = [MovieItemView(isActiveComingSoon: false)]
     var body: some View {
-        ZStack {
-            Color(PRIMARY_COLOR)
-            VStack(spacing:0.0) {
-          
-                //appbar
-                AppbarView()
+      //  NavigationStack {
+            ZStack {
+                Color(PRIMARY_COLOR)
+                VStack(spacing:0.0) {
+              
+                    //appbar
+                    AppbarView()
+                    
+                    //promotion slider
+                    SliderView()
+                    
+                    //tab btn
+                    TabBtnRowSection(isActiveNowShowing: $isActiveNowShowing, isActiveComingSoon: $isActiveComingSoon)
+                    
+                    //nowshowing and coming soon
+                    NowShowingAndComingSoonSection(isActiveComingSoon: $isActiveComingSoon,isShowing: $isShowing)
+                    
+                }.padding(.top,MARGIN_MEDIUM_3)
                 
-                //promotion slider
-                SliderView()
                 
-                //tab btn
-                TabBtnRowSection(isActiveNowShowing: $isActiveNowShowing, isActiveComingSoon: $isActiveComingSoon)
-                
-                //nowshowing and coming soon
-                NowShowingAndComingSoonSection(isActiveComingSoon: $isActiveComingSoon)
-                
-            }.padding(.top,UIScreen.main.bounds.height * 0.06)
-        }.edgesIgnoringSafeArea([.top,.bottom])
+            }
+            .background(.black)
+            .edgesIgnoringSafeArea([.bottom])
+            .toolbar(.hidden)
+            .fullScreenCover(isPresented: $isShowing) {
+                MovieDetailsScreen(isActiveComingSoon: $isActiveComingSoon)
+            }
+        //}
         
     }
 }
@@ -52,10 +62,10 @@ struct SliderItem: View {
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color(BTN_COLOR))
     }
     var body: some View {
-        Image("Offer borard")
+        Image(LABEL_PROMOTION)
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: 370,height: 170)
+            .frame(width: SLIDER_VIEW_WIDTH ,height: PROMOTION_IMG_HEIGHT)
     }
 }
 
@@ -72,7 +82,7 @@ struct SliderView: View {
             
         }.tabViewStyle(.page)
         
-            .frame(width:370,height: 250)
+            .frame(width:SLIDER_VIEW_WIDTH,height: SLIDER_VIEW_HEIGHT)
     }
 }
 
@@ -81,10 +91,10 @@ struct TabButtonView: View {
     var label: String = ""
     var body: some View {
         Text(label)
-            .frame(width:170,height: 40)
+            .frame(width:MOVIE_SCREEN_TAB_BUTTON_WIDTH,height: MOVIE_SCREEN_TAB_BUTTON_HEIGHT)
             .foregroundColor(Color(PRIMARY_COLOR))
             .background( isActive ? Color(BTN_COLOR) : Color(PRIMARY_DARK_COLOR))
-            .cornerRadius(5)
+            .cornerRadius(MOVIE_SCREEN_TAB_BUTTON_CORNER_RADIUS)
         
     }
 }
@@ -92,16 +102,18 @@ struct TabButtonView: View {
 struct TabBtnRowSection: View {
     @Binding var isActiveNowShowing:Bool
     @Binding var isActiveComingSoon:Bool
+    
     var body: some View {
         ZStack{
             Color(PRIMARY_DARK_COLOR)
             HStack{
-                TabButtonView(isActive: $isActiveNowShowing,label:"Now Showing")
+                TabButtonView(isActive: $isActiveNowShowing,label:LABEL_NOWSHOWING)
                     .onTapGesture {
                         isActiveNowShowing = true
                         isActiveComingSoon = false
+                       
                     }
-                TabButtonView(isActive: $isActiveComingSoon,label:"Coming Soon")
+                TabButtonView(isActive: $isActiveComingSoon,label:LABEL_COMINGSOON)
                     .onTapGesture {
                         isActiveNowShowing = false
                         isActiveComingSoon = true
@@ -114,25 +126,36 @@ struct TabBtnRowSection: View {
             }
             
             
-        }.frame(width: 370,height: 55)
-            .cornerRadius(5)
+        }.frame(width: SLIDER_VIEW_WIDTH,height: MOVIE_SCREEN_TAB_BUTTON_ROW_HEIGHT)
+            .cornerRadius(MOVIE_SCREEN_TAB_BUTTON_CORNER_RADIUS)
     }
 }
 
 
 struct NowShowingAndComingSoonSection: View {
     @Binding var isActiveComingSoon:Bool
+    @Binding var isShowing: Bool
     var body: some View {
         ScrollView{
             
             LazyVGrid(columns: [GridItem(spacing: 0),
                                 GridItem(spacing: 0)],spacing: 80) {
                 ForEach(1...3,id: \.self) { _ in
+//
+//                    NavigationLink {
+//                        MovieDetailsScreen(isActiveComingSoon: $isActiveComingSoon)
+//                    } label: {
+                        MovieItemView(isActiveComingSoon: $isActiveComingSoon)
+                        .onTapGesture {
+                            isShowing.toggle()
+                        }
+                    //}
+
                     
-                    MovieItemView(isActiveComingSoon: $isActiveComingSoon)
                 }
                 
-            }.padding(.top, 28)
-        }.padding(.top,30)
+            }.padding(.top, MARGIN_XLARGE)
+                .padding(.bottom,UIScreen.main.bounds.height * 0.2)
+        }.padding(.top,MARGIN_XLARGE)
     }
 }

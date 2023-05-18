@@ -25,7 +25,7 @@ struct CountryCodeAndPhNumberView: View {
                 
                 HStack(spacing:50){
                     Text(countryCode)
-                      .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                      .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
 
                     Menu {
                         ForEach(countryCodes,id: \.self){ code in
@@ -55,14 +55,14 @@ struct CountryCodeAndPhNumberView: View {
                             .foregroundColor(Color(LABEL_COLOR))
                     }
                     TextField("", text:$phoneNumber)
-                        .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                        .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                         .keyboardType(.phonePad)
                         .focused($isKeyboardShowing)
                 }
               
                     
                 Rectangle()
-                    .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                     .frame(width:PH_NUMBER_UNDERLINE_WIDTH ,height: 1)
             }
         } .toolbar {

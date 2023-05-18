@@ -27,6 +27,7 @@ struct MovieItemView: View {
                     
                     if isActiveComingSoon {
                         Text("8th \n AUG")
+                            .foregroundColor(Color(PRIMARY_DARK_COLOR))
                             .padding(5)
                             .font(.system(size: 10))
                             .multilineTextAlignment(.center)
@@ -52,7 +53,7 @@ struct MovieItemView: View {
                 
                 HStack{
                     Text("Venom")
-                        .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                        .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                         .multilineTextAlignment(.leading)
                         .font(.system(size: 12))
                     
@@ -60,7 +61,7 @@ struct MovieItemView: View {
                     
                     Image("imdb")
                     Text("9.0")
-                        .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                        .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                         .font(.system(size: 12))
                         .italic()
                         .fontWeight(.bold)
@@ -72,16 +73,16 @@ struct MovieItemView: View {
                 
                 HStack{
                     Text("U/A")
-                        .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                        .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                         .font(.system(size: 12))
                         .fontWeight(.bold)
                     
                     
                     Circle()
-                        .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                        .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                         .frame(width: 5,height: 5)
                     
-                    Text("2D, 3D, IMAX") .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                    Text("2D, 3D, IMAX") .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                         .font(.system(size: 10))
                     
                     

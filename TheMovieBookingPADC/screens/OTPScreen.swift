@@ -108,7 +108,7 @@ struct OTPTextField: View {
         }
             .padding(.all)
             .frame(width: MARGIN_XXLARGE ,  height: MARGIN_XXLARGE)
-            .background(Color(PRIMAYR_LIGHT_COLOR))
+            .background(Color(PRIMARY_LIGHT_COLOR))
             .cornerRadius(OTP_TEXTFIELD_CORNER_RADIUS)
             
     }

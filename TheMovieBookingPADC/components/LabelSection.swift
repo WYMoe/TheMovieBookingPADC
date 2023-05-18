@@ -14,7 +14,7 @@ struct LabelSection: View {
         Group{
             //label
             Text(label1)
-                .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                 .font(.system(size:TEXT_REGULAR_3X))
             
             //label

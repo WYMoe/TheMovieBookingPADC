@@ -11,8 +11,7 @@ import SwiftUI
 struct TheMovieBookingPADCApp: App {
     var body: some Scene {
         WindowGroup {
-           // ContentView(isActive: false)
-            MainScreen(selection: 1)
+           ContentView(isActive: false)
         
             
             

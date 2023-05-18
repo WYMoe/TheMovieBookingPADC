@@ -13,11 +13,15 @@ struct RegionScreen: View {
     
     let cities = ["Yangon","Mandalay","Naypyidaw","Bago","Mawlamyine"]
     var body: some View {
+        //navigation stack
        NavigationStack {
             
+           
+           //zstack
         ZStack(alignment:.top) {
                Color(PRIMARY_COLOR)
             
+           // VStack
                VStack(spacing:0.0){
 
                    
@@ -83,7 +87,7 @@ struct SearchTextFieldView: View {
                         .foregroundColor(Color(LABEL_COLOR))
                 }
                 TextField("", text:$locationText)
-                    .foregroundColor(Color((PRIMAYR_LIGHT_COLOR)))
+                    .foregroundColor(Color((PRIMARY_LIGHT_COLOR)))
                 
             }
             
@@ -116,10 +120,17 @@ struct SearchLocationSection: View {
     @Binding var locationText:String
     var body: some View {
         HStack(spacing:20.0){
-            
+            //textfield
             SearchTextFieldView(locationText:$locationText)
             
-            SearchBtnView(locationText: $locationText)
+            
+            NavigationLink {
+                MainScreen(selection: 1)
+            } label: {
+                SearchBtnView(locationText: $locationText)
+            }
+
+            
             
         }.padding(.bottom,MARGIN_XLARGE)
     }

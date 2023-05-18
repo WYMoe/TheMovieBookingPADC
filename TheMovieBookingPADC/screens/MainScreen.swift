@@ -18,46 +18,48 @@ struct MainScreen: View {
     var body: some View {
 
 
-        VStack {
-            TabView(selection:$selection){
-                    MoviesScreen()
-                        .tabItem {
-                            //Spacer()
-                            Text("Movies")
-                            
-                            Image(systemName: "play.square.fill")
-                            //Spacer()
-                        }
-                        .tag(1)
+        NavigationStack {
+          
+                TabView(selection: $selection){
+                        MoviesScreen()
+                            .tabItem {
+                                //Spacer()
+                                Text("Movies")
+                                
+                                Image(systemName: "play.square.fill")
+                                //Spacer()
+                            }
+                            .tag(1)
+                        
+                        Text("\(selection)")
+                            .tabItem {
+                                Text("Cinema")
+                                
+                                Image(systemName: "tv.fill")
+                                
+                            }
+                            .tag(2)
+                    
+                    Text("\(selection)")
+                            .tabItem {
+                                Text("Ticket")
+                                Image(systemName: "ticket.fill")
+                            }
+                            .tag(3)
+                    
                     
                     Text("\(selection)")
                         .tabItem {
-                            Text("Cinema")
-                            
-                            Image(systemName: "tv.fill")
-                            
-                        }
-                        .tag(2)
+                                Text("Profile")
+                                Image(systemName: "person.fill")
+                            }.tag(4)
+                        
+                        
+                        
+                        
+                    }
+                .accentColor(Color(BTN_COLOR))
                 
-                Text("\(selection)")
-                        .tabItem {
-                            Text("Ticket")
-                            Image(systemName: "ticket.fill")
-                        }
-                        .tag(3)
-                
-                
-                Text("\(selection)")
-                    .tabItem {
-                            Text("Profile")
-                            Image(systemName: "person.fill")
-                        }.tag(4)
-                    
-                    
-                    
-                    
-                }
-            .accentColor(Color(BTN_COLOR))
             
         }
             

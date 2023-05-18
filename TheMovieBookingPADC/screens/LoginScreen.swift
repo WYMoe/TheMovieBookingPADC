@@ -44,7 +44,7 @@ struct LoginScreen: View {
                 NavigationLink{
                     
                 }label: {
-                    LoginBtnView(label: LABEL_CONTINUE_WITH_GOOGLE,icon: IC_GOOGLE,color: PRIMAYR_LIGHT_COLOR)
+                    LoginBtnView(label: LABEL_CONTINUE_WITH_GOOGLE,icon: IC_GOOGLE,color: PRIMARY_LIGHT_COLOR)
                         .padding(.bottom,MARGIN_XXXLARGE)
                 }
                 
@@ -83,7 +83,7 @@ struct DividerView: View {
                 .padding([.leading,.trailing],MARGIN_MEDIUM_3)
             
             Text("or")
-                .foregroundColor(Color(PRIMAYR_LIGHT_COLOR))
+                .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
             
             Rectangle()
                 .frame(width: DIVIDER_WIDTH,height: 1)
