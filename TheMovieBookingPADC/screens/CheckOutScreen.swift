@@ -409,7 +409,7 @@ struct TicketBottomSection: View {
                 //price
                 Text("500Ks")
                     .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM))
+                    .font(.system(size: MARGIN_MEDIUM_2))
                     .fontWeight(.medium)
             }
             

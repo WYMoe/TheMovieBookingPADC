@@ -246,7 +246,10 @@ struct TotalSnackBtnSection: View {
             //btn
             Image(systemName:  isSnackCartShowing ? IC_DROPUP : IC_DROPDOWN )
                 .onTapGesture {
-                    isSnackCartShowing.toggle()
+                    withAnimation{
+                        isSnackCartShowing.toggle()
+                    }
+                  
                 }
             
             //spacer

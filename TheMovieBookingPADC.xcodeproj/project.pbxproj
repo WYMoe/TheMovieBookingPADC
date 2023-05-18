@@ -21,6 +21,11 @@
 		57C54D422A04E1C600C03574 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C54D412A04E1C600C03574 /* LoginScreen.swift */; };
 		57C54D452A04F33B00C03574 /* CountryCodeAndPhNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C54D442A04F33B00C03574 /* CountryCodeAndPhNumberView.swift */; };
 		57C727312A08087B00442D44 /* RegionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C727302A08087B00442D44 /* RegionScreen.swift */; };
+		57C7EADD2A165E5E00B5C0B0 /* TimeSlotScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C7EADC2A165E5E00B5C0B0 /* TimeSlotScreen.swift */; };
+		57C7EADF2A16684900B5C0B0 /* DateBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C7EADE2A16684900B5C0B0 /* DateBackgroundView.swift */; };
+		57C7EAE12A166ED300B5C0B0 /* DateItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C7EAE02A166ED300B5C0B0 /* DateItemView.swift */; };
+		57C7EAE32A16702400B5C0B0 /* ViewingTypeItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C7EAE22A16702400B5C0B0 /* ViewingTypeItemView.swift */; };
+		57C7EAE52A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C7EAE42A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift */; };
 		57CECEB52A164B1B007D07AC /* BottomPinButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CECEB42A164B1B007D07AC /* BottomPinButtonView.swift */; };
 		57DDF6372A1225E9008E99EE /* SnackScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DDF6362A1225E9008E99EE /* SnackScreen.swift */; };
 		57DDF63B2A123048008E99EE /* SnackVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DDF63A2A123048008E99EE /* SnackVO.swift */; };
@@ -53,6 +58,11 @@
 		57C54D412A04E1C600C03574 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		57C54D442A04F33B00C03574 /* CountryCodeAndPhNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeAndPhNumberView.swift; sourceTree = "<group>"; };
 		57C727302A08087B00442D44 /* RegionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionScreen.swift; sourceTree = "<group>"; };
+		57C7EADC2A165E5E00B5C0B0 /* TimeSlotScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSlotScreen.swift; sourceTree = "<group>"; };
+		57C7EADE2A16684900B5C0B0 /* DateBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBackgroundView.swift; sourceTree = "<group>"; };
+		57C7EAE02A166ED300B5C0B0 /* DateItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateItemView.swift; sourceTree = "<group>"; };
+		57C7EAE22A16702400B5C0B0 /* ViewingTypeItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewingTypeItemView.swift; sourceTree = "<group>"; };
+		57C7EAE42A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaAndTimeSlotItemView.swift; sourceTree = "<group>"; };
 		57CECEB42A164B1B007D07AC /* BottomPinButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPinButtonView.swift; sourceTree = "<group>"; };
 		57DDF6362A1225E9008E99EE /* SnackScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackScreen.swift; sourceTree = "<group>"; };
 		57DDF63A2A123048008E99EE /* SnackVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackVO.swift; sourceTree = "<group>"; };
@@ -153,6 +163,7 @@
 				57007A032A0D47E400BFE9F5 /* MovieDetailsScreen.swift */,
 				57DDF6362A1225E9008E99EE /* SnackScreen.swift */,
 				57F273D92A13AACA00252747 /* CheckOutScreen.swift */,
+				57C7EADC2A165E5E00B5C0B0 /* TimeSlotScreen.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -167,6 +178,10 @@
 				5725A97A2A0B89AE002D85DF /* MovieItemView.swift */,
 				57DDF6412A124CBC008E99EE /* BadgeView.swift */,
 				57CECEB42A164B1B007D07AC /* BottomPinButtonView.swift */,
+				57C7EADE2A16684900B5C0B0 /* DateBackgroundView.swift */,
+				57C7EAE02A166ED300B5C0B0 /* DateItemView.swift */,
+				57C7EAE22A16702400B5C0B0 /* ViewingTypeItemView.swift */,
+				57C7EAE42A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -270,11 +285,13 @@
 				57007A042A0D47E400BFE9F5 /* MovieDetailsScreen.swift in Sources */,
 				57CECEB52A164B1B007D07AC /* BottomPinButtonView.swift in Sources */,
 				57A864A52A03DAD8006A06D9 /* ContentView.swift in Sources */,
+				57C7EAE32A16702400B5C0B0 /* ViewingTypeItemView.swift in Sources */,
 				57E6AA872A060AEE00E65649 /* Strings.swift in Sources */,
 				57DDF6402A12317C008E99EE /* SnackTabView.swift in Sources */,
 				57BFC03F2A0621C10001E716 /* ViewExtensions.swift in Sources */,
 				5753E1E72A057D5E00F89362 /* Colors.swift in Sources */,
 				57F1D09D2A0522F2001914E8 /* TestView.swift in Sources */,
+				57C7EAE52A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift in Sources */,
 				57F273DA2A13AACA00252747 /* CheckOutScreen.swift in Sources */,
 				57DDF63B2A123048008E99EE /* SnackVO.swift in Sources */,
 				5725A97B2A0B89AE002D85DF /* MovieItemView.swift in Sources */,
@@ -285,9 +302,12 @@
 				57DDF6372A1225E9008E99EE /* SnackScreen.swift in Sources */,
 				57C727312A08087B00442D44 /* RegionScreen.swift in Sources */,
 				57675D642A0B2408002C4991 /* AppbarView.swift in Sources */,
+				57C7EADD2A165E5E00B5C0B0 /* TimeSlotScreen.swift in Sources */,
 				57E6AA8B2A06119800E65649 /* OTPScreen.swift in Sources */,
 				57C54D422A04E1C600C03574 /* LoginScreen.swift in Sources */,
+				57C7EAE12A166ED300B5C0B0 /* DateItemView.swift in Sources */,
 				57B651D32A0A095B00ACDF1D /* MainScreen.swift in Sources */,
+				57C7EADF2A16684900B5C0B0 /* DateBackgroundView.swift in Sources */,
 				57F06A422A07CA75005EC298 /* LabelSection.swift in Sources */,
 				57DDF63E2A1230D3008E99EE /* DummyData.swift in Sources */,
 				57E6AA892A060F3100E65649 /* LoginBtnView.swift in Sources */,

@@ -61,14 +61,15 @@ struct MovieDetailsScreen: View {
                 
                 .safeAreaInset(edge: .bottom) {
                    
+                    if(!isActiveComingSoon){
                     NavigationLink {
-                        SnackScreen(isSnackCartShowing: false)
+                        TimeSlotScreen()
                     } label: {
                         
                         //btn
-                        if(!isActiveComingSoon){
+                       
                             BottomPinButtonView(label: LABEL_BOOKING_BTN)
-                        }
+                    }.buttonStyle(.plain)
                        
                         
                     }
@@ -91,7 +92,7 @@ struct MovieDetailsScreen: View {
 
 struct MovieDetailsScreen_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailsScreen(isActiveComingSoon: .constant(true))
+        MovieDetailsScreen(isActiveComingSoon: .constant(false))
     }
 }
 
