@@ -15,9 +15,11 @@ struct SnackScreen: View {
         
         //navigationstack
         NavigationStack {
-            //zstack
             
+            //zstack
             ZStack{
+                
+                
                 Color(PRIMARY_COLOR)
                 
                 //vstack
@@ -40,19 +42,13 @@ struct SnackScreen: View {
                     if(isSnackCartShowing){
                         
                         SnackCartSection()
-                           
                     }
                     
                    
                    //bottom button
-                   
-                        TotalSnackBtnSection(isSnackCartShowing: $isSnackCartShowing)
+                    TotalSnackBtnSection(isSnackCartShowing: $isSnackCartShowing)
                     
 
-                    
-                        
-                        
-                    
                     //spacer
                      Spacer()
                     

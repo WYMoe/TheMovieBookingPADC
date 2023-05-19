@@ -82,10 +82,15 @@ struct CinemaNameAndSeeDetailsView: View {
             
             Spacer()
             
-            Text("See Details")
-                .foregroundColor(Color(BTN_COLOR))
-                .font(.system(size: MARGIN_MEDIUM_2))
+            NavigationLink{
+                SeatingPlanScreen()
+            }label: {
+                Text("See Details")
+                    .foregroundColor(Color(BTN_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_2))
                 .underline()
+            }
+                
         }
     }
 }
@@ -127,7 +132,9 @@ struct TimeSlotView: View {
                     //timeslotitemview
                     TimeSlotItemView()
                     
+                    
                 }.buttonStyle(.plain)
+                    
             }
         }
     }

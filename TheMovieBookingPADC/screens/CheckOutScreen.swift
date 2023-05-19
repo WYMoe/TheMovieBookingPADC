@@ -31,14 +31,11 @@ struct CheckOutScreen: View {
                     //ticket section
                     TicketSection(isSnacksShowing: $isSnacksShowing)
                     
-                    
-                    
                 }
                 .safeAreaInset(edge: .bottom) {
+                    
                     //btn
                     BottomPinButtonView(label: "Continue")
-                   
-                    
                 }
                 .padding(.top,MARGIN_MEDIUM_3)
             }
@@ -328,6 +325,7 @@ struct CemiCircleAndDottedLineView: View {
                 
             }
             
+            //dotted line
             Line()
                 .stroke(style: StrokeStyle(lineWidth: 1, dash: [8]))
                 .frame(height: 1)
@@ -354,7 +352,7 @@ struct TicketTopSection: View {
             //title
             MovieTitleAndCinemaNameSection()
             
-            //date time location
+            //date time loctation
             DateTimeAndLocationSection()
             
             //ticket type and count

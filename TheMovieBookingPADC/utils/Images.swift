@@ -34,3 +34,8 @@ let IC_SNACK_GRAY = "snack_ic_gray"
 let IC_PARKGING = "parking"
 let IC_WHEELCHAIR = "wheelchair"
 let IC_INFO = "long_press_info"
+let IC_SCREEN = "screen"
+let IC_SEAT_AVAILABLE = "seat_available"
+let IC_SEAT_TAKEN = "seat_taken"
+
+let IC_BUY_TICKET_BTN_BG = "buy_ticket_bg_image"

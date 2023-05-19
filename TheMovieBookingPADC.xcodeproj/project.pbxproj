@@ -10,6 +10,10 @@
 		57007A042A0D47E400BFE9F5 /* MovieDetailsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57007A032A0D47E400BFE9F5 /* MovieDetailsScreen.swift */; };
 		5725A97B2A0B89AE002D85DF /* MovieItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5725A97A2A0B89AE002D85DF /* MovieItemView.swift */; };
 		5753E1E72A057D5E00F89362 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753E1E62A057D5E00F89362 /* Colors.swift */; };
+		5756448D2A16F209003381E4 /* SeatingPlanScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5756448C2A16F209003381E4 /* SeatingPlanScreen.swift */; };
+		5756448F2A16F646003381E4 /* MovieSeatVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5756448E2A16F646003381E4 /* MovieSeatVO.swift */; };
+		575644912A16FCA0003381E4 /* ViewUtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575644902A16FCA0003381E4 /* ViewUtilityFunctions.swift */; };
+		5759C3672A17492700FDCB50 /* MovieSeatsZoomableContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5759C3662A17492700FDCB50 /* MovieSeatsZoomableContainerView.swift */; };
 		57675D622A0B23EB002C4991 /* MoviesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57675D612A0B23EB002C4991 /* MoviesScreen.swift */; };
 		57675D642A0B2408002C4991 /* AppbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57675D632A0B2408002C4991 /* AppbarView.swift */; };
 		57A864A32A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A864A22A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift */; };
@@ -46,6 +50,10 @@
 		57007A032A0D47E400BFE9F5 /* MovieDetailsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsScreen.swift; sourceTree = "<group>"; };
 		5725A97A2A0B89AE002D85DF /* MovieItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemView.swift; sourceTree = "<group>"; };
 		5753E1E62A057D5E00F89362 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		5756448C2A16F209003381E4 /* SeatingPlanScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatingPlanScreen.swift; sourceTree = "<group>"; };
+		5756448E2A16F646003381E4 /* MovieSeatVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSeatVO.swift; sourceTree = "<group>"; };
+		575644902A16FCA0003381E4 /* ViewUtilityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewUtilityFunctions.swift; sourceTree = "<group>"; };
+		5759C3662A17492700FDCB50 /* MovieSeatsZoomableContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSeatsZoomableContainerView.swift; sourceTree = "<group>"; };
 		57675D612A0B23EB002C4991 /* MoviesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesScreen.swift; sourceTree = "<group>"; };
 		57675D632A0B2408002C4991 /* AppbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppbarView.swift; sourceTree = "<group>"; };
 		57A8649F2A03DAD8006A06D9 /* TheMovieBookingPADC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheMovieBookingPADC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +105,7 @@
 				57E6AA822A05FF7B00E65649 /* Dimensions.swift */,
 				57E6AA842A06062100E65649 /* Images.swift */,
 				57E6AA862A060AEE00E65649 /* Strings.swift */,
+				575644902A16FCA0003381E4 /* ViewUtilityFunctions.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -164,6 +173,7 @@
 				57DDF6362A1225E9008E99EE /* SnackScreen.swift */,
 				57F273D92A13AACA00252747 /* CheckOutScreen.swift */,
 				57C7EADC2A165E5E00B5C0B0 /* TimeSlotScreen.swift */,
+				5756448C2A16F209003381E4 /* SeatingPlanScreen.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -182,6 +192,7 @@
 				57C7EAE02A166ED300B5C0B0 /* DateItemView.swift */,
 				57C7EAE22A16702400B5C0B0 /* ViewingTypeItemView.swift */,
 				57C7EAE42A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift */,
+				5759C3662A17492700FDCB50 /* MovieSeatsZoomableContainerView.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -198,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				57DDF63A2A123048008E99EE /* SnackVO.swift */,
+				5756448E2A16F646003381E4 /* MovieSeatVO.swift */,
 			);
 			path = VOs;
 			sourceTree = "<group>";
@@ -280,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5759C3672A17492700FDCB50 /* MovieSeatsZoomableContainerView.swift in Sources */,
 				57DDF6422A124CBC008E99EE /* BadgeView.swift in Sources */,
 				57675D622A0B23EB002C4991 /* MoviesScreen.swift in Sources */,
 				57007A042A0D47E400BFE9F5 /* MovieDetailsScreen.swift in Sources */,
@@ -288,6 +301,7 @@
 				57C7EAE32A16702400B5C0B0 /* ViewingTypeItemView.swift in Sources */,
 				57E6AA872A060AEE00E65649 /* Strings.swift in Sources */,
 				57DDF6402A12317C008E99EE /* SnackTabView.swift in Sources */,
+				5756448D2A16F209003381E4 /* SeatingPlanScreen.swift in Sources */,
 				57BFC03F2A0621C10001E716 /* ViewExtensions.swift in Sources */,
 				5753E1E72A057D5E00F89362 /* Colors.swift in Sources */,
 				57F1D09D2A0522F2001914E8 /* TestView.swift in Sources */,
@@ -296,9 +310,11 @@
 				57DDF63B2A123048008E99EE /* SnackVO.swift in Sources */,
 				5725A97B2A0B89AE002D85DF /* MovieItemView.swift in Sources */,
 				57A864A32A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift in Sources */,
+				575644912A16FCA0003381E4 /* ViewUtilityFunctions.swift in Sources */,
 				57C54D452A04F33B00C03574 /* CountryCodeAndPhNumberView.swift in Sources */,
 				57E6AA852A06062100E65649 /* Images.swift in Sources */,
 				57E6AA832A05FF7B00E65649 /* Dimensions.swift in Sources */,
+				5756448F2A16F646003381E4 /* MovieSeatVO.swift in Sources */,
 				57DDF6372A1225E9008E99EE /* SnackScreen.swift in Sources */,
 				57C727312A08087B00442D44 /* RegionScreen.swift in Sources */,
 				57675D642A0B2408002C4991 /* AppbarView.swift in Sources */,
