@@ -16,6 +16,7 @@ import AVKit
 struct MovieDetailsScreen: View {
     @Binding  var isActiveComingSoon:Bool
     @Environment(\.dismiss) var dismiss
+   
     var body: some View {
         //NavigationStack
         NavigationStack {
@@ -68,7 +69,13 @@ struct MovieDetailsScreen: View {
                         
                         //btn
                        
+                        NavigationLink {
+                            SnackScreen(isSnackCartShowing: false)
+                        }label: {
                             BottomPinButtonView(label: LABEL_BOOKING_BTN)
+
+                        }
+                            
                     }.buttonStyle(.plain)
                        
                         

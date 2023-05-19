@@ -20,7 +20,9 @@ struct LoginBtnView: View {
         
         
         
-        if icon.isEmpty {Text(label).frame(width: LOGIN_BTN_WIDTH,height: LOGIN_BTN_HEIGHT)
+        if icon.isEmpty {
+            Text(label)
+                .frame(width: LOGIN_BTN_WIDTH,height: LOGIN_BTN_HEIGHT)
                 .foregroundColor(Color(PRIMARY_COLOR))
                 .background(Color(color))
             .cornerRadius(LOGIN_BTN_CONOR_RADIUS) } else {

@@ -12,6 +12,8 @@ struct MoviesScreen: View {
     @State var isActiveNowShowing:Bool = true
     @State var isActiveComingSoon:Bool = false
     @State var isShowing:Bool = false
+    
+    
    // var movies = [MovieItemView(isActiveComingSoon: false)]
     var body: some View {
       //  NavigationStack {
@@ -135,21 +137,20 @@ struct TabBtnRowSection: View {
 struct NowShowingAndComingSoonSection: View {
     @Binding var isActiveComingSoon:Bool
     @Binding var isShowing: Bool
+   
     var body: some View {
         ScrollView{
             
             LazyVGrid(columns: [GridItem(spacing: 0),
                                 GridItem(spacing: 0)],spacing: 80) {
                 ForEach(1...3,id: \.self) { _ in
-//
-//                    NavigationLink {
-//                        MovieDetailsScreen(isActiveComingSoon: $isActiveComingSoon)
-//                    } label: {
+
                         MovieItemView(isActiveComingSoon: $isActiveComingSoon)
                         .onTapGesture {
                             isShowing.toggle()
+                           
                         }
-                    //}
+                   
 
                     
                 }

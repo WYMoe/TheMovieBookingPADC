@@ -31,6 +31,9 @@
 		57C7EAE32A16702400B5C0B0 /* ViewingTypeItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C7EAE22A16702400B5C0B0 /* ViewingTypeItemView.swift */; };
 		57C7EAE52A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C7EAE42A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift */; };
 		57CECEB52A164B1B007D07AC /* BottomPinButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CECEB42A164B1B007D07AC /* BottomPinButtonView.swift */; };
+		57D862A02A17B68F0002E797 /* CancelationPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D8629F2A17B68F0002E797 /* CancelationPolicyView.swift */; };
+		57D862A22A17D9560002E797 /* PaymentScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D862A12A17D9560002E797 /* PaymentScreen.swift */; };
+		57D862A42A17F5C60002E797 /* TicketConfirmationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D862A32A17F5C60002E797 /* TicketConfirmationScreen.swift */; };
 		57DDF6372A1225E9008E99EE /* SnackScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DDF6362A1225E9008E99EE /* SnackScreen.swift */; };
 		57DDF63B2A123048008E99EE /* SnackVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DDF63A2A123048008E99EE /* SnackVO.swift */; };
 		57DDF63E2A1230D3008E99EE /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DDF63D2A1230D3008E99EE /* DummyData.swift */; };
@@ -44,6 +47,7 @@
 		57F06A422A07CA75005EC298 /* LabelSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F06A412A07CA75005EC298 /* LabelSection.swift */; };
 		57F1D09D2A0522F2001914E8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1D09C2A0522F2001914E8 /* TestView.swift */; };
 		57F273DA2A13AACA00252747 /* CheckOutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F273D92A13AACA00252747 /* CheckOutScreen.swift */; };
+		57F5D2BF2A181408001A5756 /* CustomEnvironmentProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F5D2BE2A181408001A5756 /* CustomEnvironmentProperty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +76,9 @@
 		57C7EAE22A16702400B5C0B0 /* ViewingTypeItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewingTypeItemView.swift; sourceTree = "<group>"; };
 		57C7EAE42A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaAndTimeSlotItemView.swift; sourceTree = "<group>"; };
 		57CECEB42A164B1B007D07AC /* BottomPinButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPinButtonView.swift; sourceTree = "<group>"; };
+		57D8629F2A17B68F0002E797 /* CancelationPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelationPolicyView.swift; sourceTree = "<group>"; };
+		57D862A12A17D9560002E797 /* PaymentScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentScreen.swift; sourceTree = "<group>"; };
+		57D862A32A17F5C60002E797 /* TicketConfirmationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketConfirmationScreen.swift; sourceTree = "<group>"; };
 		57DDF6362A1225E9008E99EE /* SnackScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackScreen.swift; sourceTree = "<group>"; };
 		57DDF63A2A123048008E99EE /* SnackVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackVO.swift; sourceTree = "<group>"; };
 		57DDF63D2A1230D3008E99EE /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
@@ -85,6 +92,7 @@
 		57F06A412A07CA75005EC298 /* LabelSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSection.swift; sourceTree = "<group>"; };
 		57F1D09C2A0522F2001914E8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		57F273D92A13AACA00252747 /* CheckOutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutScreen.swift; sourceTree = "<group>"; };
+		57F5D2BE2A181408001A5756 /* CustomEnvironmentProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEnvironmentProperty.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				57BFC03E2A0621C10001E716 /* ViewExtensions.swift */,
+				57F5D2BE2A181408001A5756 /* CustomEnvironmentProperty.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -174,6 +183,8 @@
 				57F273D92A13AACA00252747 /* CheckOutScreen.swift */,
 				57C7EADC2A165E5E00B5C0B0 /* TimeSlotScreen.swift */,
 				5756448C2A16F209003381E4 /* SeatingPlanScreen.swift */,
+				57D862A12A17D9560002E797 /* PaymentScreen.swift */,
+				57D862A32A17F5C60002E797 /* TicketConfirmationScreen.swift */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -193,6 +204,7 @@
 				57C7EAE22A16702400B5C0B0 /* ViewingTypeItemView.swift */,
 				57C7EAE42A167E5200B5C0B0 /* CinemaAndTimeSlotItemView.swift */,
 				5759C3662A17492700FDCB50 /* MovieSeatsZoomableContainerView.swift */,
+				57D8629F2A17B68F0002E797 /* CancelationPolicyView.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -298,6 +310,7 @@
 				57007A042A0D47E400BFE9F5 /* MovieDetailsScreen.swift in Sources */,
 				57CECEB52A164B1B007D07AC /* BottomPinButtonView.swift in Sources */,
 				57A864A52A03DAD8006A06D9 /* ContentView.swift in Sources */,
+				57D862A42A17F5C60002E797 /* TicketConfirmationScreen.swift in Sources */,
 				57C7EAE32A16702400B5C0B0 /* ViewingTypeItemView.swift in Sources */,
 				57E6AA872A060AEE00E65649 /* Strings.swift in Sources */,
 				57DDF6402A12317C008E99EE /* SnackTabView.swift in Sources */,
@@ -312,6 +325,7 @@
 				57A864A32A03DAD8006A06D9 /* TheMovieBookingPADCApp.swift in Sources */,
 				575644912A16FCA0003381E4 /* ViewUtilityFunctions.swift in Sources */,
 				57C54D452A04F33B00C03574 /* CountryCodeAndPhNumberView.swift in Sources */,
+				57F5D2BF2A181408001A5756 /* CustomEnvironmentProperty.swift in Sources */,
 				57E6AA852A06062100E65649 /* Images.swift in Sources */,
 				57E6AA832A05FF7B00E65649 /* Dimensions.swift in Sources */,
 				5756448F2A16F646003381E4 /* MovieSeatVO.swift in Sources */,
@@ -321,11 +335,13 @@
 				57C7EADD2A165E5E00B5C0B0 /* TimeSlotScreen.swift in Sources */,
 				57E6AA8B2A06119800E65649 /* OTPScreen.swift in Sources */,
 				57C54D422A04E1C600C03574 /* LoginScreen.swift in Sources */,
+				57D862A22A17D9560002E797 /* PaymentScreen.swift in Sources */,
 				57C7EAE12A166ED300B5C0B0 /* DateItemView.swift in Sources */,
 				57B651D32A0A095B00ACDF1D /* MainScreen.swift in Sources */,
 				57C7EADF2A16684900B5C0B0 /* DateBackgroundView.swift in Sources */,
 				57F06A422A07CA75005EC298 /* LabelSection.swift in Sources */,
 				57DDF63E2A1230D3008E99EE /* DummyData.swift in Sources */,
+				57D862A02A17B68F0002E797 /* CancelationPolicyView.swift in Sources */,
 				57E6AA892A060F3100E65649 /* LoginBtnView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

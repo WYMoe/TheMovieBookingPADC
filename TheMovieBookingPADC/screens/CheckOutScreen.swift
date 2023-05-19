@@ -10,6 +10,7 @@ import SwiftUI
 struct CheckOutScreen: View {
     @State var isSnacksShowing:Bool = true
     @State var isCancelPolicyShowing:Bool = true
+    @State var showPopup:Bool = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         
@@ -29,19 +30,28 @@ struct CheckOutScreen: View {
                     }
                     
                     //ticket section
-                    TicketSection(isSnacksShowing: $isSnacksShowing)
+                    TicketSection(isSnacksShowing: $isSnacksShowing,showPopup: $showPopup)
                     
                 }
                 .safeAreaInset(edge: .bottom) {
                     
                     //btn
-                    BottomPinButtonView(label: "Continue")
+                    NavigationLink{
+                       PaymentScreen()
+                    }label: {
+                        BottomPinButtonView(label: "Continue")
+                    }
+                        
                 }
                 .padding(.top,MARGIN_MEDIUM_3)
             }
             .edgesIgnoringSafeArea([.top
                                     ,.bottom])
+            .background(.black)
         }.navigationBarBackButtonHidden(true)
+            .popupNavigationView(horizontalPadding: 5,show: $showPopup) {
+                CancelationPolicyView(showPopup: $showPopup)
+            }
     }
 }
 
@@ -382,6 +392,7 @@ struct TicketTopSection: View {
 }
 
 struct TicketBottomSection: View {
+    @Binding var showPopup:Bool
     var body: some View {
         Group{
             //convenient fee
@@ -427,6 +438,11 @@ struct TicketBottomSection: View {
                 .padding(MARGIN_SMALL+1)
                 .background(Color(CANCEL_POLICY_BG))
                 .cornerRadius(MARGIN_MEDIUM_2)
+                .onTapGesture {
+                    withAnimation {
+                        showPopup.toggle()
+                    }
+                }
                 Spacer()
             }.padding(.bottom,20)
             
@@ -457,6 +473,7 @@ struct TicketBottomSection: View {
 
 struct TicketSection: View {
     @Binding var isSnacksShowing:Bool
+    @Binding var showPopup:Bool
     var body: some View {
         VStack(alignment:.leading,spacing: MARGIN_MEDIUM) {
             
@@ -471,7 +488,7 @@ struct TicketSection: View {
             CemiCircleAndDottedLineView()
             
             //ticker bottom section
-            TicketBottomSection()
+            TicketBottomSection(showPopup: $showPopup)
             
             
             

@@ -10,37 +10,39 @@ import SwiftUI
 struct SeatingPlanScreen: View {
     @Environment(\.presentationMode) var presentation
     var body: some View {
-        ZStack{
-            Color.black
-            VStack(spacing:0.0){
-                //Appbar
-                SeatingPlanAppbarView{
-                    presentation.wrappedValue.dismiss()
-                }
+        NavigationStack {
+            ZStack{
+                Color.black
+                VStack(spacing:0.0){
+                    //Appbar
+                    SeatingPlanAppbarView{
+                        presentation.wrappedValue.dismiss()
+                    }
+                    
+                    //screen view
+                    ScreenView().padding(.top,MARGIN_MEDIUM_2)
+                    
+                    //price label
+                    Text("Normal (4500Ks)")
+                        .foregroundColor(Color(LABEL_COLOR))
+                        .font(.system(size: MARGIN_MEDIUM_2))
+                        .padding(.bottom,MARGIN_MEDIUM)
+                    
+                    
+                    //movie seats
+                    MovieSeatsZoomableContainerView(
+                        view: AnyView(MovieSeatView()),
+                        viewHeight: 300
+                    ).padding([.leading,.trailing], MARGIN_SMALL)
+                  
+                    Spacer()
+                    
+                    
+                }.padding(.top,MARGIN_XXLARGE)
                 
-                //screen view
-                ScreenView().padding(.top,MARGIN_MEDIUM_2)
-                
-                //price label
-                Text("Normal (4500Ks)")
-                    .foregroundColor(Color(LABEL_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                    .padding(.bottom,MARGIN_MEDIUM)
-                
-                
-                //movie seats
-                MovieSeatsZoomableContainerView(
-                    view: AnyView(MovieSeatView()),
-                    viewHeight: 300
-                ).padding([.leading,.trailing], MARGIN_SMALL)
-              
-                Spacer()
-                
-                
-            }.padding(.top,MARGIN_XXLARGE)
-            
-        }.edgesIgnoringSafeArea(.all)
-            .navigationBarBackButtonHidden(true)
+            }.edgesIgnoringSafeArea(.all)
+                .navigationBarBackButtonHidden(true)
+        }
             
     }
 }

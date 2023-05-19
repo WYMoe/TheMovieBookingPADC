@@ -17,6 +17,8 @@ struct MovieSeatsZoomableContainerView: View {
     @State private var zoomLevel: Double = 1.0
     @State private var offset:CGSize = .zero
     @State private var lastOffset: CGSize = .zero
+    
+    @Environment(\.presentationMode) var presentation
     var body: some View {
         
         let drag = DragGesture()
@@ -53,7 +55,13 @@ struct MovieSeatsZoomableContainerView: View {
                 .padding(.top,MARGIN_XLARGE)
             
             //ticket price and buy ticket
-            TicketsPriceAndBuyTicketView()
+            NavigationLink{
+                SnackScreen(isSnackCartShowing: false)
+            } label:{
+                TicketsPriceAndBuyTicketView()
+            }
+            
+                
             
         }.background(.black)
     }
@@ -159,6 +167,7 @@ struct TicketsPriceAndBuyTicketView: View {
                     .frame(height: MARGIN_XXLARGE)
                 
                 Text(LABEL_BUY_TICKET)
+                    .foregroundColor(.black)
                     .font(.system(size: MARGIN_MEDIUM_2))
                     .fontWeight(.semibold)
                     .frame(width: MARGIN_XLLARGE,height: MARGIN_XXLARGE)
