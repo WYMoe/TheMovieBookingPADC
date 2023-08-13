@@ -10,27 +10,35 @@ import SwiftUI
 struct MainScreen: View {
     
     @State var selection:Int = 1
- 
-    init(@State selection:Int) {
+    var cityId : Int = 0
+    var cityName : String = ""
+    //var userId : Int
+
+  
+    init(@State selection:Int, cityId : Int,cityName : String) {
         UITabBar.appearance().backgroundColor = UIColor(Color(PRIMARY_COLOR))
         UITabBar.appearance().barTintColor = UIColor(Color(PRIMARY_COLOR))
         self.selection = selection
+        self.cityId = cityId
+        self.cityName = cityName
+        //self.userId = userId
+       // print("mainscreen : \(cityId )")
     }
     var body: some View {
         
         
-        NavigationStack{
+     
             
-            
+            //tabview
             TabView(selection: $selection){
                 
-                MoviesScreen()
+                //movie screen
+                MoviesScreen(cityId:cityId,cityName: cityName)
                     .tabItem {
-                        //Spacer()
-                        Text("Movies")
                         
+                        Text("Movies")
                         Image(systemName: "play.square.fill")
-                        //Spacer()
+                        
                     }
                     .tag(1)
                 
@@ -63,29 +71,17 @@ struct MainScreen: View {
                 
             }
             .accentColor(Color(BTN_COLOR))
-            .navigationDestination(for: Int.self){
-                int in
-                
-            }
-            
-            
-            
-        }
-        
-        
-        
-        
-        
-        
-        
-        
+          
         
     }
+    
+   
+    
 }
 
 struct MainScreen_Previews: PreviewProvider {
     static var previews: some View {
-        MainScreen(selection:1 )
+        MainScreen(selection:1 ,cityId: 0,cityName:"")
     }
 }
 

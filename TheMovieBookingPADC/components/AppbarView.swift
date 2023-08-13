@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AppbarView: View {
+    var cityName : String
     var body: some View {
         HStack{
             Image(systemName: IC_LOCATION)
@@ -15,7 +16,7 @@ struct AppbarView: View {
                 .frame(width: 16,height: 16)
                 .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                 .padding(.leading,28)
-            Text("Yangon")
+            Text(cityName)
                 .font(.system(size: 16))
                 .foregroundColor(Color((PRIMARY_LIGHT_COLOR)))
                 .italic()
@@ -47,6 +48,6 @@ struct AppbarView: View {
 
 struct AppbarView_Previews: PreviewProvider {
     static var previews: some View {
-        AppbarView()
+        AppbarView(cityName: "")
     }
 }

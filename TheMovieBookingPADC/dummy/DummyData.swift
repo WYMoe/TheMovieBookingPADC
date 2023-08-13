@@ -8,14 +8,14 @@
 import Foundation
 
 
-let dummySnacks = [
-    SnackVO(snackType: "All",isSelected: true),
-    SnackVO(snackType: "Combo",isSelected: false),
-    SnackVO(snackType: "Snack",isSelected: false),
-    SnackVO(snackType: "Pop Corn",isSelected: false),
-    SnackVO(snackType: "Beverage",isSelected: false)
-    
-]
+//let dummySnacks = [
+//    SnackVO(snackType: "All",isSelected: true),
+//    SnackVO(snackType: "Combo",isSelected: false),
+//    SnackVO(snackType: "Snack",isSelected: false),
+//    SnackVO(snackType: "Pop Corn",isSelected: false),
+//    SnackVO(snackType: "Beverage",isSelected: false)
+//    
+//]
 
 
 let dummy_seats = [
@@ -164,3 +164,4 @@ let dummy_seats = [
     
     
 ]
+

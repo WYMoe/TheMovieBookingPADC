@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CountryCodeAndPhNumberView: View {
     @State private var countryCode = "+95"
-    @State private var phoneNumber = ""
+    @Binding  var phoneNumber:String 
     
     @FocusState var isKeyboardShowing: Bool
 
@@ -83,11 +83,12 @@ struct CountryCodeAndPhNumberView: View {
 
 
 
-struct CountryCodeAndPhNumberView_Previews: PreviewProvider {
-    static var previews: some View {
-        CountryCodeAndPhNumberView()
-    }
-}
+//struct CountryCodeAndPhNumberView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        @Binding var ph : String = projectedValue
+//        CountryCodeAndPhNumberView(phoneNumber: ph)
+//    }
+//}
 
 
 

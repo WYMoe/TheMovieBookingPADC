@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MovieItemView: View {
     @Binding var isActiveComingSoon:Bool
-    
+    var movie : MovieVO
     
     
     var body: some View {
@@ -17,11 +17,12 @@ struct MovieItemView: View {
             Color(.black)
             VStack(alignment: .leading, spacing:0.0){
                 ZStack(alignment:.topTrailing){
-                    
-                    Image("Movie")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 170,height: 212)
+//
+//                    Image("Movie")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: 170,height: 212)
+                    MovieImageView(imageUrl: "\(BASE_IMAGE_URL)\(movie.posterPath ?? "")" )
                    
                
                     
@@ -52,7 +53,7 @@ struct MovieItemView: View {
                 
                 
                 HStack{
-                    Text("Venom")
+                    Text(movie.originalTitle ?? "")
                         .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                         .multilineTextAlignment(.leading)
                         .font(.system(size: 12))
@@ -104,6 +105,43 @@ struct MovieItemView: View {
 
 struct MovieItemView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieItemView(isActiveComingSoon: .constant(false))
+        MovieItemView(isActiveComingSoon: .constant(false),movie: MovieVO())
+    }
+}
+
+
+struct MovieImageView: View {
+    var imageUrl : String = ""
+    
+    init(imageUrl : String) {
+        UIPageControl.appearance().pageIndicatorTintColor = .gray
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color(BTN_COLOR))
+        self.imageUrl = imageUrl
+    }
+
+   
+    
+    var body: some View  {
+        AsyncImage(url: URL(string: imageUrl)!) { phase in
+            switch phase {
+            case .empty:
+                 ProgressView()
+            case .success(let image):
+                 image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                   // .frame(minWidth: 170, idealWidth: 170 , maxWidth: 170 , minHeight: 210, idealHeight: 210 , maxHeight: 210)
+
+                    //.frame(minWidth: 0, idealWidth: 170 , maxWidth: 170 , minHeight: 0, idealHeight: 212 , maxHeight: 212)
+                    .frame(width:170,height: 212)
+                    .clipped()
+            case .failure:
+                Image(systemName: "exclamationmark.icloud")
+                
+            @unknown default:
+                EmptyView()
+            }
+            
+        }
     }
 }

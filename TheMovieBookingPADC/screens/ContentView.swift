@@ -11,11 +11,11 @@ struct ContentView: View {
     
     @State var isActive: Bool
     var body: some View {
-        NavigationStack{
+       
             
             ZStack{
                 if isActive {
-                  LoginScreen(showOTP: false)
+                  LoginScreen()
                 }else {
                    
                     SplashView()
@@ -30,7 +30,8 @@ struct ContentView: View {
             
             }
             .edgesIgnoringSafeArea([.top,.bottom])
-        }
+            
+        
             
         
         

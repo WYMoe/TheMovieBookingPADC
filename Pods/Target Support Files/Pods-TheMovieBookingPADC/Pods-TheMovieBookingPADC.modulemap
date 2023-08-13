@@ -1,0 +1,6 @@
+framework module Pods_TheMovieBookingPADC {
+  umbrella header "Pods-TheMovieBookingPADC-umbrella.h"
+
+  export *
+  module * { export * }
+}

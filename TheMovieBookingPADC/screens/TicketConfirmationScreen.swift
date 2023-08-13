@@ -9,9 +9,17 @@ import SwiftUI
 
 struct TicketConfirmationScreen: View {
     @State var showPopup: Bool = true
+    var CheckoutData : CheckoutVO
     
+    var cinemaName : String
+    var status : Int
+    var cityId : Int
+    var cityName: String
+    @State var bookedMovie : MovieDetailVO? = nil
+    let mBookingModel : MovieBookingModel = MovieBookingModelImpl.shared
+    @State var isPresented : Bool = false
     var body: some View {
-        NavigationStack {
+     
             ZStack{
                 Color.black
                 
@@ -26,29 +34,40 @@ struct TicketConfirmationScreen: View {
                         .padding(.bottom,MARGIN_XLARGE)
                     
                     //ticket
-                    TicketConfirmationTicketView()
+                    TicketConfirmationTicketView(checkoutData: CheckoutData, bookedMovie: bookedMovie ?? MovieDetailVO() ,cinemaName: cinemaName,status: status)
                         .padding(.bottom,MARGIN_XXLARGE)
                     
                     
                     //qr and code view
-                    QRCodeView()
+                    QRCodeView(qrImg:CheckoutData.qrcode ?? "")
                         .padding(.bottom,MARGIN_XXLARGE)
                     
                     //btn
-                    
-                   Text("Done")
-                            .frame(width: 176,height: 40)
-                            .background(Color(BTN_COLOR))
+                   
+                        Text("Done")
+                            .foregroundColor(.black)
+                                .frame(width: 176,height: 40)
+                                .background(Color(BTN_COLOR))
                             .cornerRadius(CORNER_RADIUS_SMALL)
                             .onTapGesture {
-                                NavigationUtil.popToRootView()
+                                isPresented = true
+                               
                             }
+              
+                            
                     
                     Spacer()
                 }
             }.edgesIgnoringSafeArea(.all)
                 .background(.black)
                 .onAppear{
+                    
+                    mBookingModel.getMovieDetail(movieId: CheckoutData.movieId ?? 0, onSuccess: { movie in
+                        self.bookedMovie = movie
+                    }) { error in
+                        
+                    }
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                 
                         self.showPopup = false
@@ -62,30 +81,51 @@ struct TicketConfirmationScreen: View {
                         SuccessOverlay()
                     }
                 }
-        }.navigationBarBackButtonHidden(true)
+                .navigationDestination(isPresented: $isPresented, destination: {
+                    MainScreen(selection: 0, cityId: cityId, cityName: cityName)
+                })
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 struct TicketConfirmationScreen_Previews: PreviewProvider {
     static var previews: some View {
-        TicketConfirmationScreen(showPopup: true)
+        TicketConfirmationScreen(showPopup: true,CheckoutData: CheckoutVO(),cinemaName: "",status: 0, cityId: 0,cityName: "")
     }
 }
 
 struct TicketConfirmationMovieInfoView: View {
+    var checkoutData : CheckoutVO
+    var bookedMovie : MovieDetailVO
+    var cinemaName : String
+    var status : Int
     var body: some View {
         HStack(alignment:.top,spacing:MARGIN_MEDIUM_3){
-            Image("Movie")
-                .resizable()
-                .frame(width: 120,height: 150)
-                .clipped()
-            
-            
+    //movie image
+            AsyncImage(url: URL(string: "\(BASE_IMAGE_URL)\(bookedMovie.posterPath ?? "")")!) { phase in
+            switch phase {
+            case .empty:
+                 ProgressView()
+            case .success(let image):
+                 image
+                    .resizable()
+                    .frame(width: 120,height: 150)
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
+                    
+            case .failure:
+                Image(systemName: "exclamationmark.icloud")
+
+            @unknown default:
+                EmptyView()
+            }
+
+        }
             VStack(alignment:.leading){
                 
                 //movie title
                 HStack{
-                    Text("Venom")
+                    Text(bookedMovie.originalTitle ?? "")
                         .foregroundColor(.white)
                         .font(.system(size:MARGIN_MEDIUM_2))
                         .fontWeight(.bold)
@@ -95,7 +135,7 @@ struct TicketConfirmationMovieInfoView: View {
                 }.padding(.bottom,MARGIN_CARD_MEDIUM)
                 
                 //cinema name
-                Text("JCGV : Junction City")
+                Text(cinemaName)
                     .foregroundColor(Color(BTN_COLOR))
                     .font(.system(size:MARGIN_MEDIUM_2))
                     .padding(.bottom,MARGIN_MEDIUM_2)
@@ -114,7 +154,7 @@ struct TicketConfirmationMovieInfoView: View {
                         .fontWeight(.semibold)
                     
                     //ticket count
-                    Text("2")
+                    Text("\(String(checkoutData.totalSeat ?? 0))")
                         .foregroundColor(Color(BTN_COLOR))
                         .font(.system(size: MARGIN_MEDIUM_1))
                         .fontWeight(.semibold)
@@ -130,11 +170,11 @@ struct TicketConfirmationMovieInfoView: View {
                 
                 //ticket type and number
                 HStack(spacing:0){
-                    Text("Gold-G8,G7")
+                    Text(checkoutData.seat ?? "")
                         .foregroundColor(.white)
                         .font(.system(size:MARGIN_MEDIUM_2))
                         .fontWeight(.bold)
-                    Text("(Screen 2)")
+                    Text(" (Screen \(status))")
                         .foregroundColor(Color(LABEL_COLOR))
                         .font(.system(size:MARGIN_MEDIUM_2))
                 }
@@ -147,6 +187,20 @@ struct TicketConfirmationMovieInfoView: View {
 }
 
 struct TicketConfirmationDateTImeLocation: View {
+    var checkoutData : CheckoutVO
+    var formattedDate : String {
+        
+        let inputFormat = DateFormatter()
+        inputFormat.dateFormat = "yyyy-M-d"
+        
+        if let date = inputFormat.date(from: checkoutData.bookingDate ?? "") {
+            let outputFormat = DateFormatter()
+            outputFormat.dateFormat = "E, d MMM, yyyy"
+            return outputFormat.string(from: date)
+        }
+        
+        return ""
+    }
     var body: some View {
         HStack(alignment:.firstTextBaseline){
             
@@ -155,7 +209,7 @@ struct TicketConfirmationDateTImeLocation: View {
                 Image(IC_CALENDER)
                     .resizable()
                     .frame(width: MARGIN_MEDIUM_3,height: MARGIN_MEDIUM_3)
-                Text("Sat, 18 Jun, 2022")
+                Text(formattedDate)
                     .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                     .font(.system(size: MARGIN_MEDIUM_1))
                 
@@ -171,7 +225,7 @@ struct TicketConfirmationDateTImeLocation: View {
                     .resizable()
                     .frame(width: MARGIN_MEDIUM_3,height: MARGIN_MEDIUM_3)
                     .foregroundColor(Color(BTN_COLOR))
-                Text("3:30PM")
+                Text(checkoutData.timeslot?.startTime ?? "")
                     .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                     .font(.system(size: MARGIN_MEDIUM_1))
                 
@@ -199,16 +253,20 @@ struct TicketConfirmationDateTImeLocation: View {
 }
 
 struct TicketConfirmationTicketView: View {
+    var checkoutData : CheckoutVO
+    var bookedMovie : MovieDetailVO
+    var cinemaName : String
+    var status : Int
     var body: some View {
         VStack{
             //movie info
-            TicketConfirmationMovieInfoView()
+            TicketConfirmationMovieInfoView(checkoutData: checkoutData, bookedMovie: bookedMovie,cinemaName: cinemaName,status: status)
             
             //cemicircle and dotted line
             CemiCircleAndDottedLineView()
             
             //date time and location
-            TicketConfirmationDateTImeLocation()
+            TicketConfirmationDateTImeLocation(checkoutData:checkoutData)
             
         }.padding([.leading,.trailing],MARGIN_MEDIUM_1)
             .padding([.top,.bottom],MARGIN_XLARGE
@@ -221,13 +279,30 @@ struct TicketConfirmationTicketView: View {
 }
 
 struct QRCodeView: View {
+    var qrImg : String
     var body: some View {
         VStack {
             
             //qr img
-            Image("qr")
-                .resizable()
-                .frame(width: MARGIN_XLLARGE,height: MARGIN_XLLARGE)
+
+            AsyncImage(url: URL(string: "\(BASE_URL)/\(qrImg)")!) { phase in
+            switch phase {
+            case .empty:
+                 ProgressView()
+            case .success(let image):
+                 image
+                    .resizable()
+                    .frame(width: MARGIN_XLLARGE,height: MARGIN_XLLARGE)
+                   
+                    
+            case .failure:
+                Image(systemName: "exclamationmark.icloud")
+
+            @unknown default:
+                EmptyView()
+            }
+
+        }
             
             //code
             Text("WAG5LP1C")

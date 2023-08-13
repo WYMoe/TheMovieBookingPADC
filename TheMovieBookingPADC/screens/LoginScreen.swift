@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct LoginScreen: View {
-    @State var showOTP:Bool
+   
     @State var screenSelection:String? = nil
+    @State var isPresented : Bool = false
+    @State var phoneNumber : String = ""
+    
+    //data model
+    let mBookingModel : MovieBookingModel = MovieBookingModelImpl.shared
+    
+     @State var otpObj : OTPVO? = nil
     
     var body: some View {
         
@@ -27,19 +34,26 @@ struct LoginScreen: View {
                     LabelSection(label1: LABEL_VERIFY,label2: LABEL_WILL_SEND_DIGITS)
                     
                     //countrycode and ph number
-                    CountryCodeAndPhNumberView().padding(EdgeInsets(top: 0, leading: MARGIN_XLARGE, bottom: MARGIN_XXLARGE, trailing: MARGIN_XLARGE))
+                    CountryCodeAndPhNumberView(phoneNumber: $phoneNumber).padding(EdgeInsets(top: 0, leading: MARGIN_XLARGE, bottom: MARGIN_XXLARGE, trailing: MARGIN_XLARGE))
                     
                     
                    // btn verify
-                    NavigationLink {
-                      OTPScreen(otp: "", isKeyboardShowing: false)
-                    }label: {
-                        LoginBtnView(label: LABEL_VERIFY,color: BTN_COLOR)
-                            .padding(.bottom,MARGIN_XLARGE)
+                    LoginBtnView(label: LABEL_VERIFY,color: BTN_COLOR).padding(.bottom,MARGIN_XLARGE).onTapGesture {
+                        
+                        mBookingModel.getOTP(phoneNumber: phoneNumber) { otpVO in
+                            print("login screen : \(otpVO.message ?? "")")
+                            if otpVO.message == "Otp sent" {
+                                isPresented = true
+                                
+                            }
+                        } onFailure: { error in
+                            
+                        }
+
+
                     }
                     
-                    
-                    
+               
                    
                     //divider
                     DividerView().padding(.bottom,MARGIN_LARGE)
@@ -50,6 +64,7 @@ struct LoginScreen: View {
                     }label: {
                         LoginBtnView(label: LABEL_CONTINUE_WITH_GOOGLE,icon: IC_GOOGLE,color: PRIMARY_LIGHT_COLOR)
                             .padding(.bottom,MARGIN_XXXLARGE)
+                           
                     }
                     
                     
@@ -64,16 +79,21 @@ struct LoginScreen: View {
                     
                 }
             }.edgesIgnoringSafeArea([.top,.bottom])
+                
+                .navigationDestination(isPresented: $isPresented) {
+                   OTPScreen(phoneNumber: phoneNumber)
+                }
+            
+          
         }
-        
-        
-        
+       
     }
+    
 }
 
 struct LoginScreen_Previews: PreviewProvider {
     static var previews: some View {
-        LoginScreen(showOTP: false)
+        LoginScreen()
     }
 }
 

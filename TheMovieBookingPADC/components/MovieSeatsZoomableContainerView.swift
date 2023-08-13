@@ -12,12 +12,13 @@ struct MovieSeatsZoomableContainerView: View {
     //child view
     var view: AnyView? = nil
     var viewHeight: Double = 0.0
-    
+    var seatCount : Int = 0
+    var seatPrice  : Int = 0
     //states
     @State private var zoomLevel: Double = 1.0
     @State private var offset:CGSize = .zero
     @State private var lastOffset: CGSize = .zero
-    
+    @Binding var isPresented : Bool
     @Environment(\.presentationMode) var presentation
     var body: some View {
         
@@ -53,14 +54,11 @@ struct MovieSeatsZoomableContainerView: View {
             //zoom slider
             ZoomSliderView(zoomLevel: $zoomLevel, offset: $offset,lastOffset: $lastOffset)
                 .padding(.top,MARGIN_XLARGE)
-            
-            //ticket price and buy ticket
-            NavigationLink{
-                SnackScreen(isSnackCartShowing: false)
-            } label:{
-                TicketsPriceAndBuyTicketView()
+  
+            // tickets price and buy ticket button
+            TicketsPriceAndBuyTicketView(seatCount: seatCount,seatPrice: seatPrice).onTapGesture {
+                isPresented = true
             }
-            
                 
             
         }.background(.black)
@@ -69,7 +67,7 @@ struct MovieSeatsZoomableContainerView: View {
 
 struct MovieSeatsZoomableContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieSeatsZoomableContainerView()
+        MovieSeatsZoomableContainerView(isPresented: .constant(false))
     }
 }
 
@@ -133,7 +131,7 @@ struct ZoomSliderView: View {
                 offset = CGSize.zero
                 lastOffset = CGSize.zero
             }),
-                    in: 1...3, step: 0.1)
+                    in: 0.6...3, step: 0.1)
             .padding(.horizontal)
             .accentColor(Color(PRIMARY_LIGHT_COLOR))
             
@@ -145,16 +143,18 @@ struct ZoomSliderView: View {
 }
 
 struct TicketsPriceAndBuyTicketView: View {
+    var seatCount : Int = 0
+    var seatPrice : Int = 0
     var body: some View {
         HStack(spacing: MARGIN_XLARGE_2) {
             //tickets and price
             VStack{
-                Text("2 Tickets")
+                Text("\(seatCount) Ticket(s)")
                     .foregroundColor(.white)
                     .font(.system(size: MARGIN_MEDIUM_2))
                     .fontWeight(.semibold)
                 
-                Text("20000Ks")
+                Text("\(seatPrice) Ks")
                     .foregroundColor(Color(BTN_COLOR))
                     .font(.system(size: MARGIN_MEDIUM_3))
                     .fontWeight(.semibold)

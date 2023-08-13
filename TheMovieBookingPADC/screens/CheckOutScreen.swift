@@ -12,16 +12,36 @@ struct CheckOutScreen: View {
     @State var isCancelPolicyShowing:Bool = true
     @State var showPopup:Bool = false
     @Environment(\.dismiss) var dismiss
+    
+    //for checkout
+    var movieTitle : String
+    var movieId : Int
+   
+    var cinema : String
+    var screenStatus : Int
+    var selectedDate : String
+    var selectedTime : String
+    var ticketCountForCheckout : Int
+    var seatNamesForCheckout : String
+    var ticketsPriceForCheckout : Int
+    @Binding var snacksForCheckout : [SnackVO]?
+    var timeslotId : Int
+    var cityId : Int
+    var cityName : String
+    @State var formattedDate : String = ""
+    
+    @State var isPresented : Bool = false
+    
     var body: some View {
         
-        //navigation stack
-        NavigationStack {
+        
+    
             
-            //zstack
+            //background
             ZStack{
                 Color(.black)
                 
-                // vstack
+                // body
                 VStack(alignment:.center,spacing: 0.0) {
                     
                     //appbar
@@ -29,146 +49,58 @@ struct CheckOutScreen: View {
                         dismiss()
                     }
                     
-                    //ticket section
-                    TicketSection(isSnacksShowing: $isSnacksShowing,showPopup: $showPopup)
+                    //ticket view
+                    TicketView(isSnacksShowing: $isSnacksShowing,showPopup: $showPopup,movieTitle: movieTitle,cinema: cinema,screenStatus: screenStatus,selectedDate: formattedDate,selectedTime: selectedTime,ticketCountForCheckout: ticketCountForCheckout,seatNamesForCheckout:seatNamesForCheckout, ticketsPriceForCheckout: ticketsPriceForCheckout,snacksForCheckout: $snacksForCheckout )
                     
                 }
                 .safeAreaInset(edge: .bottom) {
                     
-                    //btn
-                    NavigationLink{
-                       PaymentScreen()
-                    }label: {
-                        BottomPinButtonView(label: "Continue")
-                    }
+                    //continue btn
+                    
+                    BottomPinButtonView(label: LABEL_CONTINUE)
+                        .onTapGesture {
+                            isPresented = true
+                        }
                         
                 }
                 .padding(.top,MARGIN_MEDIUM_3)
             }
-            .edgesIgnoringSafeArea([.top
-                                    ,.bottom])
+            .edgesIgnoringSafeArea([.top,.bottom])
             .background(.black)
-        }.navigationBarBackButtonHidden(true)
-            .popupNavigationView(horizontalPadding: 5,show: $showPopup) {
+            .navigationDestination(isPresented: $isPresented, destination: {
+                PaymentScreen(cinema_day_timeslot_id: timeslotId, seat_number: seatNamesForCheckout, booking_date:selectedDate , movie_id: movieId, snacksRequest: snacksForCheckout ?? [],snacksforRawdata: [],movieTitle: movieTitle,cinemaName: cinema,status: screenStatus,cityId:cityId,cityName:cityName)
+            })
+            .navigationBarBackButtonHidden(true)
+            .onAppear{
+                self.formattedDate = formatDate(inputDate: selectedDate) ?? ""
+            }
+            .popupNavigationView(horizontalPadding: MARGIN_SMALL,show: $showPopup) {
                 CancelationPolicyView(showPopup: $showPopup)
             }
-    }
-}
-
-struct CheckOutScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        CheckOutScreen()
-    }
-}
-
-struct MovieTitleAndCinemaNameSection: View {
-    var body: some View {
-        //vstack
-        VStack(alignment:.leading, spacing:10.0){
-            
-            //hstack
-            HStack {
-                
-                //movie title
-                Text("Black Widow")
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                    .fontWeight(.bold)
-                //type
-                Text("(3D)")
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                //rating
-                Text("(U/A)")
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                
-                
-            }
-            
-            //hstack
-            HStack{
-                //cinema name
-                Text("JCGV :Junction City")
-                    .foregroundColor(Color(BTN_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                //cinema number
-                Text("(SCREEN 2)")
-                    .foregroundColor(Color(CHECKOUT_TICKET_TEXT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                
-                
-            }
-        }
-        .padding(.bottom,MARGIN_MEDIUM_3)
-    }
-}
-
-struct DateTimeAndLocationSection: View {
-    var body: some View {
         
-        //hstack
-        HStack(alignment:.firstTextBaseline){
-            
-            //date
-            VStack{
-                Image(IC_CALENDER)
-                    .resizable()
-                    .frame(width: MARGIN_MEDIUM_1,height: MARGIN_MEDIUM_1)
-                Text("Sat, 18 Jun, 2022")
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_1))
-                
-            }
-            
-            //spacer
-            Spacer()
-            
-            //time
-            VStack{
-                Image(systemName: IC_CLOCK)
-                
-                    .resizable()
-                    .frame(width: MARGIN_MEDIUM_1,height: MARGIN_MEDIUM_1)
-                    .foregroundColor(Color(BTN_COLOR))
-                Text("3:30PM")
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_1))
-                
-            }
-            
-            //spacer
-            Spacer()
-            
-            //location
-            VStack{
-                Image(systemName: IC_LOCATION)
-                    .resizable()
-                    .frame(width: MARGIN_MEDIUM_1,height: MARGIN_MEDIUM_1)
-                    .foregroundColor(Color(BTN_COLOR))
-                
-                Text("Q5H3+JPP, Corner of, Bogyoke Lann, Yangon ")
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_1))
-                    .multilineTextAlignment(.center)
-                
-            }
-          
+    }
+    
+    func formatDate(inputDate: String) -> String? {
+        let inputFormat = DateFormatter()
+        inputFormat.dateFormat = "yyyy-M-d"
+        
+        if let date = inputFormat.date(from: inputDate) {
+            let outputFormat = DateFormatter()
+            outputFormat.dateFormat = "E, d MMM, yyyy"
+            return outputFormat.string(from: date)
         }
+        
+        return nil
     }
 }
 
+//struct CheckOutScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CheckOutScreen(movieTitle: "", cinema: "", screenStatus: 0,selectedDate: "",selectedTime: "",ticketCountForCheckout: 0,seatNamesForCheckout: "",ticketsPriceForCheckout: 0,snacksForCheckout: nil)
+//    }
+//}
 
-
-struct Line: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: rect.width, y: 0))
-        return path
-    }
-}
-
+//appbar
 struct CheckoutScreenAppbarView: View {
     var onTapBack:()->Void = {
         
@@ -199,7 +131,233 @@ struct CheckoutScreenAppbarView: View {
     }
 }
 
+
+
+//ticekt view
+struct TicketView: View {
+    @Binding var isSnacksShowing:Bool
+    @Binding var showPopup:Bool
+    var movieTitle : String
+    var cinema : String
+    var screenStatus : Int
+    var selectedDate : String
+    var selectedTime : String
+    var ticketCountForCheckout : Int
+    var seatNamesForCheckout : String
+    var ticketsPriceForCheckout : Int
+    @Binding var snacksForCheckout : [SnackVO]?
+    
+    var snackTotalPrice : Int {
+        var t : Int = 0
+        snacksForCheckout?.filter({ s in
+            s.quantity ?? 0 > 0
+        }).forEach({ s in
+            t += ((s.quantity ?? 0) * (s.price ?? 0) * 1000)
+        })
+        return t
+    }
+    var convinentFee = 500
+    
+    var body: some View {
+        VStack(alignment:.leading,spacing: MARGIN_MEDIUM) {
+            
+            
+            
+            
+            //ticket top section
+            TicketTopSection(isSnacksShowing: $isSnacksShowing,movieTitle: movieTitle,cinema: cinema,screenStatus: screenStatus,selectedDate: selectedDate,selectedTime: selectedTime,ticketCountForCheckout: ticketCountForCheckout,seatNamesForCheckout: seatNamesForCheckout,ticketsPriceForCheckout: ticketsPriceForCheckout,snacksForCheckout: $snacksForCheckout,snackTotalPrice: snackTotalPrice)
+            
+            
+            //cemicircle and dotted line
+            CemiCircleAndDottedLineView()
+            
+            //ticker bottom section
+            TicketBottomSection(showPopup: $showPopup,grandTotal: snackTotalPrice+ticketsPriceForCheckout+500,convinentFee: convinentFee)
+            
+            
+            
+            
+            
+        }
+        .padding([.leading,.trailing],MARGIN_MEDIUM_1)
+        .padding([.top,.bottom],MARGIN_XLARGE
+        )
+        .background(TicketBackgroundGradient()
+        )
+        .cornerRadius(CORNER_RADIUS_MEDIUM)
+        .padding([.leading,.trailing],MARGIN_MEDIUM_1)
+    }
+}
+
+
+//ticket top section
+struct TicketTopSection: View {
+    @Binding var isSnacksShowing:Bool
+    var movieTitle : String
+    var cinema : String
+    var screenStatus : Int
+    var selectedDate : String
+    var selectedTime : String
+    var ticketCountForCheckout : Int
+    var seatNamesForCheckout : String
+    var ticketsPriceForCheckout : Int
+    @Binding var snacksForCheckout : [SnackVO]?
+    var dummysnacks : [SnackVO]? = []
+    var snackTotalPrice : Int
+    var body: some View {
+       Group{
+            //title
+           MovieTitleAndCinemaNameSection(movieTitle: movieTitle, cinema: cinema, screenStatus: screenStatus)
+            
+            //date time loctation
+            DateTimeAndLocationSection(selectedDate: selectedDate, selectedTime: selectedTime)
+            
+            //ticket type and count
+            TicketTypeAndCountView(ticketCountForCheckout: ticketCountForCheckout)
+            
+            //seat number and Price
+            SeatNumberAndPriceView(seatNamesForCheckout: seatNamesForCheckout,ticketsPriceForCheckout: ticketsPriceForCheckout)
+            
+            //divider
+            TicketDivider()
+            
+            //food and beverage
+            FoodAndBeverageView(isSnacksShowing: $isSnacksShowing,totalPrice: snackTotalPrice)
+            
+            
+            //food and beverage list
+            if isSnacksShowing {
+                ForEach(snacksForCheckout ?? [],id:\.id){
+                    snack in
+
+                    if (snack.quantity ?? 0 > 0) {
+                        FoodAndBeverageItemView(snack: snack) {
+                            let index = snacksForCheckout?.firstIndex(where: { s in
+                                snack.id == s.id
+                            })
+                            
+                            snacksForCheckout?[index ?? 0].quantity = 0
+                        }
+                    }
+
+                }
+            }
+           
+        }.padding(.bottom,MARGIN_MEDIUM)
+    }
+}
+
+//movie title and cinema name
+struct MovieTitleAndCinemaNameSection: View {
+    var movieTitle : String
+    var cinema : String
+    var screenStatus : Int
+    var body: some View {
+        //vstack
+        VStack(alignment:.leading, spacing:10.0){
+            
+            //hstack
+            HStack {
+                
+                //movie title
+                Text(movieTitle)
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_2))
+                    .fontWeight(.bold)
+                //type
+                Text("(3D)")
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_2))
+                //rating
+                Text("(U/A)")
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_2))
+                
+                
+            }
+            
+            //hstack
+            HStack{
+                
+                //cinema name
+                Text(cinema)
+                    .foregroundColor(Color(BTN_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_2))
+                //cinema number
+                Text("(SCREEN \(screenStatus))")
+                    .foregroundColor(Color(CHECKOUT_TICKET_TEXT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_2))
+                
+                
+            }
+        }
+        .padding(.bottom,MARGIN_MEDIUM_3)
+    }
+}
+
+
+
+//datetime
+struct DateTimeAndLocationSection: View {
+    var selectedDate : String
+    var selectedTime : String
+    var body: some View {
+        
+        //hstack
+        HStack(alignment:.firstTextBaseline){
+            
+            //date
+            VStack{
+                Image(IC_CALENDER)
+                    .resizable()
+                    .frame(width: MARGIN_MEDIUM_1,height: MARGIN_MEDIUM_1)
+                Text(selectedDate)
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_1))
+                
+            }
+            
+            //spacer
+            Spacer()
+            
+            //time
+            VStack{
+                Image(systemName: IC_CLOCK)
+                
+                    .resizable()
+                    .frame(width: MARGIN_MEDIUM_1,height: MARGIN_MEDIUM_1)
+                    .foregroundColor(Color(BTN_COLOR))
+                Text(selectedTime)
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_1))
+                
+            }
+            
+            //spacer
+            Spacer()
+            
+            //location
+            VStack{
+                Image(systemName: IC_LOCATION)
+                    .resizable()
+                    .frame(width: MARGIN_MEDIUM_1,height: MARGIN_MEDIUM_1)
+                    .foregroundColor(Color(BTN_COLOR))
+                
+                Text("Q5H3+JPP, Corner of, Bogyoke Lann, Yangon ")
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_1))
+                    .multilineTextAlignment(.center)
+                
+            }
+          
+        }
+    }
+}
+
+
+//ticket type and count
 struct TicketTypeAndCountView: View {
+    var ticketCountForCheckout : Int
     var body: some View {
         HStack{
             //ticket type
@@ -211,7 +369,7 @@ struct TicketTypeAndCountView: View {
                 .font(.system(size: MARGIN_MEDIUM_1))
             
             //ticket count
-            Text("2")
+            Text(String(ticketCountForCheckout))
                 .foregroundColor(Color(BTN_COLOR))
                 .font(.system(size: MARGIN_MEDIUM_1))
             
@@ -223,15 +381,18 @@ struct TicketTypeAndCountView: View {
     }
 }
 
+//seat number and price
 struct SeatNumberAndPriceView: View {
+    var seatNamesForCheckout : String
+    var ticketsPriceForCheckout : Int
     var body: some View {
         HStack{
-            Text("Gold-G8,G7")
+            Text(seatNamesForCheckout)
                 .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                 .font(.system(size: MARGIN_MEDIUM_2))
                 .fontWeight(.medium)
             Spacer()
-            Text("20000Ks")
+            Text("\(ticketsPriceForCheckout)Ks")
                 .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                 .font(.system(size: MARGIN_MEDIUM_2))
                 .fontWeight(.medium)
@@ -239,8 +400,30 @@ struct SeatNumberAndPriceView: View {
     }
 }
 
+//divider
+struct TicketDivider: View {
+    
+    var body: some View {
+        Rectangle()
+            .frame(height: 0.5)
+            .foregroundColor(Color(CHECKOUT_TICKET_TEXT_COLOR))
+            
+    }
+}
+struct Line: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        return path
+    }
+}
+
+//food and beverage
 struct FoodAndBeverageView: View {
     @Binding var isSnacksShowing:Bool
+    
+    var totalPrice : Int
     var body: some View {
         HStack{
             
@@ -265,87 +448,62 @@ struct FoodAndBeverageView: View {
             //spacer
             Spacer()
             //price
-            Text("2000Ks")
-                .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                .font(.system(size: MARGIN_MEDIUM_2))
-                .fontWeight(.medium)
+            
+                Text("\(totalPrice)Ks")
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_2))
+                    .fontWeight(.medium)
+            
         }
     }
 }
 
-struct SnackListItem: View {
+//fandb item
+struct FoodAndBeverageItemView: View {
+    var snack : SnackVO
+    var price : Int {
+        (snack.quantity ?? 0 ) * ( snack.price ?? 0 ) * 1000
+    }
+    var onTapCancel : () -> Void
     var body: some View {
         HStack{
-            
+
             //icon
             Image(IC_CANCEL)
                 .resizable()
                 .frame(width: MARGIN_MEDIUM_3,height: MARGIN_MEDIUM_3)
+                .onTapGesture {
+                    onTapCancel()
+                }
             //snack name and qt
-            Text("Potatoe Chips (Qt. 1)")
+            Text("\(snack.name ?? "") (Qt. \(String(snack.quantity ?? 0)))")
                 .foregroundColor(Color(CHECKOUT_TICKET_TEXT_COLOR))
                 .font(.system(size: MARGIN_MEDIUM_1))
             Spacer()
             //price
-            Text("1000Ks")
+            Text("\(price)Ks")
                 .foregroundColor(Color(CHECKOUT_TICKET_TEXT_COLOR))
                 .font(.system(size: MARGIN_MEDIUM_1))
-            
-            
-            
+
+
+
         }
     }
 }
 
-struct TicketDivider: View {
-    
-    var body: some View {
-        Rectangle()
-            .frame(height: 0.5)
-            .foregroundColor(Color(CHECKOUT_TICKET_TEXT_COLOR))
-            
-    }
-}
 
-struct CemiCircleAndDottedLineView: View {
-    var body: some View {
-        ZStack{
-            HStack(){
-                
-                //circle
-                Circle()
-                    .trim(from: 0,to: 0.5)
-                    .rotationEffect(.degrees(270))
-                    .frame(width: MARGIN_XXLARGE)
-                    .foregroundColor(Color(.black))
-                
-                
-                
-                    .offset(x:-MARGIN_XLARGE_2)
-                //spacer
-                Spacer()
-                
-                //circle
-                Circle()
-                    .trim(from: 0,to: 0.5)
-                    .rotationEffect(.degrees(90))
-                    .frame(width: MARGIN_XXLARGE)
-                    .offset(x:MARGIN_XLARGE_2)
-                    .foregroundColor(Color(.black))
-                
-            }
-            
-            //dotted line
-            Line()
-                .stroke(style: StrokeStyle(lineWidth: 1, dash: [8]))
-                .frame(height: 1)
-                .foregroundColor(Color(.gray))
-                .padding()
-        }
-        .padding(.top,MARGIN_MEDIUM_2)
-    }
-}
 
+
+
+
+
+
+
+
+
+
+
+//ticket bg gradient
 struct TicketBackgroundGradient: View {
     var body: some View {
         LinearGradient(
@@ -355,96 +513,23 @@ struct TicketBackgroundGradient: View {
     }
 }
 
-struct TicketTopSection: View {
-    @Binding var isSnacksShowing:Bool
-    var body: some View {
-        Group{
-            //title
-            MovieTitleAndCinemaNameSection()
-            
-            //date time loctation
-            DateTimeAndLocationSection()
-            
-            //ticket type and count
-            TicketTypeAndCountView()
-            
-            //seat number and Price
-            SeatNumberAndPriceView()
-            
-            //divider
-            TicketDivider()
-            
-            //food and beverage
-            FoodAndBeverageView(isSnacksShowing: $isSnacksShowing)
-            
-            
-            //snack list
-            if isSnacksShowing {
-                ForEach(1...2,id:\.self){
-                    _ in
-                    
-                    //item
-                    SnackListItem()
-                }
-            }
-        }.padding(.bottom,MARGIN_MEDIUM)
-    }
-}
 
+
+
+
+
+//ticket bottom section
 struct TicketBottomSection: View {
     @Binding var showPopup:Bool
+    var grandTotal : Int
+    var convinentFee : Int
     var body: some View {
         Group{
             //convenient fee
-            HStack{
-                
-                //label
-                Text(LABEL_CONVINENCE_FEE)
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                    .fontWeight(.medium)
-                
-                
-                //btn
-                Image(systemName: IC_DROPDOWN)
-                    .resizable()
-                    .frame(width: MARGIN_CARD_MEDIUM_2,height:MARGIN_MEDIUM)
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                
-                //spacer
-                Spacer()
-                
-                
-                //price
-                Text("500Ks")
-                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                    .font(.system(size: MARGIN_MEDIUM_2))
-                    .fontWeight(.medium)
-            }
+            ConvenientFeeView(convinentFee: convinentFee)
             
-            // cancelation policy
-            HStack{
-                HStack{
-                    Image(systemName: IC_WARNING)
-                        .foregroundColor(Color(PRIMARY_LIGHT_COLOR
-                                              ))
-                    Text(LABEL_CANCEL_POLICY)
-                        .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
-                        .font(.system(size: MARGIN_MEDIUM_1))
-                        .foregroundColor(Color(PRIMARY_DARK_COLOR))
-                    
-                    
-                }
-                .padding(MARGIN_SMALL+1)
-                .background(Color(CANCEL_POLICY_BG))
-                .cornerRadius(MARGIN_MEDIUM_2)
-                .onTapGesture {
-                    withAnimation {
-                        showPopup.toggle()
-                    }
-                }
-                Spacer()
-            }.padding(.bottom,20)
+            // cancelation policy btn
+            CancelationPolicyBtn(showPopup: $showPopup)
             
             
             //divider
@@ -457,7 +542,7 @@ struct TicketBottomSection: View {
                     .font(.system(size: MARGIN_MEDIUM_3))
                     .fontWeight(.bold)
                 Spacer()
-                Text("22500Ks")
+                Text("\(grandTotal)Ks")
                     .foregroundColor(Color(BTN_COLOR))
                     .font(.system(size: MARGIN_MEDIUM_3))
                     .fontWeight(.bold)
@@ -471,36 +556,70 @@ struct TicketBottomSection: View {
     }
 }
 
-struct TicketSection: View {
-    @Binding var isSnacksShowing:Bool
+
+
+
+
+//convenient fee view
+struct ConvenientFeeView: View {
+    var convinentFee : Int
+    var body: some View {
+        HStack{
+            
+            //label
+            Text(LABEL_CONVINENCE_FEE)
+                .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                .font(.system(size: MARGIN_MEDIUM_2))
+                .fontWeight(.medium)
+            
+            
+            //btn
+            Image(systemName: IC_DROPDOWN)
+                .resizable()
+                .frame(width: MARGIN_CARD_MEDIUM_2,height:MARGIN_MEDIUM)
+                .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+            
+            //spacer
+            Spacer()
+            
+            
+            //price
+            Text("\(convinentFee)Ks")
+                .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                .font(.system(size: MARGIN_MEDIUM_2))
+                .fontWeight(.medium)
+        }
+    }
+}
+
+
+//cancelation policy btn
+struct CancelationPolicyBtn: View {
+    
     @Binding var showPopup:Bool
     var body: some View {
-        VStack(alignment:.leading,spacing: MARGIN_MEDIUM) {
+        HStack{
             
-            
-            
-            
-            //ticket top section
-            TicketTopSection(isSnacksShowing: $isSnacksShowing)
-            
-            
-            //cemicircle and dotted line
-            CemiCircleAndDottedLineView()
-            
-            //ticker bottom section
-            TicketBottomSection(showPopup: $showPopup)
-            
-            
-            
-            
-            
-        }
-        .padding([.leading,.trailing],MARGIN_MEDIUM_1)
-        .padding([.top,.bottom],MARGIN_XLARGE
-        )
-        .background(TicketBackgroundGradient()
-        )
-        .cornerRadius(CORNER_RADIUS_MEDIUM)
-        .padding([.leading,.trailing],MARGIN_MEDIUM_1)
+            HStack{
+                Image(systemName: IC_WARNING)
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR
+                                          ))
+                Text(LABEL_CANCEL_POLICY)
+                    .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
+                    .font(.system(size: MARGIN_MEDIUM_1))
+                    .foregroundColor(Color(PRIMARY_DARK_COLOR))
+                
+                
+            }
+            .padding(MARGIN_SMALL+1)
+            .background(Color(CANCEL_POLICY_BG))
+            .cornerRadius(MARGIN_MEDIUM_2)
+            .onTapGesture {
+                withAnimation {
+                    showPopup.toggle()
+                }
+            }
+            Spacer()
+        }.padding(.bottom,20)
     }
 }

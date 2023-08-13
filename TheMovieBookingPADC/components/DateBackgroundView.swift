@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DateBackgroundView: View {
+     var isSelected : Bool
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
             Color.black
@@ -15,7 +16,7 @@ struct DateBackgroundView: View {
             //rectangle background
             Rectangle()
                 .cornerRadius(MARGIN_MEDIUM)
-                .foregroundColor(Color(CHECKOUT_TICKET_TEXT_COLOR))
+                .foregroundColor(isSelected ? Color(BTN_COLOR) : Color(CHECKOUT_TICKET_TEXT_COLOR))
                 .padding([.leading,.trailing],MARGIN_MEDIUM)
             
             //TopBar
@@ -45,6 +46,6 @@ struct DateBackgroundView: View {
 
 struct DateBackgroundView_Previews: PreviewProvider {
     static var previews: some View {
-        DateBackgroundView()
+        DateBackgroundView(isSelected: false)
     }
 }

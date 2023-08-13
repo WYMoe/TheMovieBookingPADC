@@ -8,7 +8,29 @@
 import Foundation
 
 
-struct SnackVO {
-    var snackType: String = ""
-    var isSelected: Bool = false
+struct SnackVO : Codable, Hashable {
+    
+   
+    var id : Int?
+    var name : String?
+    var description : String?
+    var price : Int?
+    var categoryId : Int?
+    var image : String?
+    var quantity : Int? = 0
+    var totalPrice : Int?
+    
+    enum CodingKeys: String,CodingKey {
+        case id
+        case name
+        case description
+        case price
+        case categoryId
+        case image
+        //case quantity
+        case totalPrice = "total_price"
+        
+    }
+    
+    
 }

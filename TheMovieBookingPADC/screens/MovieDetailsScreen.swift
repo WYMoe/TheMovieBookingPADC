@@ -9,52 +9,61 @@ import SwiftUI
 import AVKit
 
 
-
-
-
-
 struct MovieDetailsScreen: View {
-    @Binding  var isActiveComingSoon:Bool
+    var isActiveComingSoon:Bool
     @Environment(\.dismiss) var dismiss
-   
+    @State var isPresented : Bool = false
+    var movieId : Int
+    
+    @State var movieDetail : MovieDetailVO? = nil
+    let mBookingModel : MovieBookingModel = MovieBookingModelImpl.shared
+    var cityId : Int
+    var cityName : String
     var body: some View {
-        //NavigationStack
-        NavigationStack {
+        
+
             
-            // zstack
+         
             ZStack {
+                
+                //background
                 Color(.black)
                 
-                //vstack
+                //body
+                
                 VStack(spacing:0.0){
-                    ScrollView{
-                        //video player and poster
-                        VideoPlayerAndPosterSection(){
+                    ScrollView(showsIndicators: false){
+                        //video player and movie poster
+                        VideoPlayerAndMoviePosterView(onTapBack: {
                             dismiss()
-                        }
+                        }, movieDetail: movieDetail)
                         
                         //labels
-                        MovieLabelsView()
+                        MovieLabelsView(movieDetail : movieDetail )
                         
                         //spacer
                         Spacer()
                         
                         
-                        //info section
-                        MovieInfoSection()
+                        //info view
+                        MovieInfoView(movieDetail: movieDetail)
                         
-                        //setNotification section
+                        //setNotification view
                         if isActiveComingSoon {
-                            SetNotificationSection()
+                            SetNotificationView()
                             
                         }
                         
-                        //story line
-                        StorylineSection()
+                        //storyline
+                        StorylineView(movieDetail: movieDetail)
                         
                         
-                        // cast section
-                        CastSection()
+                        // cast
+                        CastView(movieDetail: movieDetail)
+                        
+                        if isActiveComingSoon {
+                            Spacer(minLength: 30)
+                        }
                     }
                     
                     
@@ -63,21 +72,14 @@ struct MovieDetailsScreen: View {
                 .safeAreaInset(edge: .bottom) {
                    
                     if(!isActiveComingSoon){
-                    NavigationLink {
-                        TimeSlotScreen()
-                    } label: {
-                        
-                        //btn
-                       
-                        NavigationLink {
-                            SnackScreen(isSnackCartShowing: false)
-                        }label: {
-                            BottomPinButtonView(label: LABEL_BOOKING_BTN)
 
-                        }
-                            
-                    }.buttonStyle(.plain)
-                       
+                        BottomPinButtonView(label: LABEL_BOOKING_BTN)
+                            .padding(.bottom,MARGIN_MEDIUM_3)
+                            .onTapGesture {
+                                self.isPresented = true
+                            }
+                        
+            
                         
                     }
                    
@@ -87,23 +89,36 @@ struct MovieDetailsScreen: View {
                 .padding(.top,20)
                
             } .edgesIgnoringSafeArea([.top,.bottom])
-                
+            .navigationDestination(isPresented: $isPresented, destination: {
+                TimeSlotScreen( timeslot: TimeSlotVO(),movieTitle: movieDetail?.originalTitle ?? "",cinemaForCheckout: "",screenStatus: 0,movieId: movieId,cityId:cityId,cityName: cityName)
+            })
+              .navigationBarBackButtonHidden(true)
+              .onAppear{
+                  requestData()
+              }
             
+    }
+    
+    func requestData(){
+        mBookingModel.getMovieDetail(movieId: movieId) { movieDetail in
             
+            self.movieDetail = movieDetail
+        } onFailure: { error in
+            print(error.localizedDescription)
         }
-       
-        .navigationBarBackButtonHidden(true)
-            
+
+        
     }
 }
 
 struct MovieDetailsScreen_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailsScreen(isActiveComingSoon: .constant(false))
+        MovieDetailsScreen(isActiveComingSoon: false,movieId: 0, cityId: 0, cityName: "")
     }
 }
 
 
+//video player and back button, share button
 struct VideoPlayerAndBackButtonView: View {
    
     var onTapBack : () -> Void = { }
@@ -129,6 +144,7 @@ struct VideoPlayerAndBackButtonView: View {
                         .padding(.top,MARGIN_XXLARGE)
                 }
                 
+                //spacer
                 Spacer()
                 
                 //share button
@@ -150,42 +166,71 @@ struct VideoPlayerAndBackButtonView: View {
     }
 }
 
-struct VideoPlayerAndPosterSection: View {
+
+//video player and poster 
+struct VideoPlayerAndMoviePosterView: View {
+    
     var onTapBack : () -> Void = { }
+    var movieDetail : MovieDetailVO? = nil
     var body: some View {
+        
+        
         ZStack(alignment: .bottomLeading){
             //video player, back button and share button
             VideoplayerBackButtonAndShareButtonView(){
                 onTapBack()
             }
             
+            
+            
             //poster img
-            Image("Movie")
-                .resizable()
-                .frame(width: MOVIE_POSTER_WIDTH,height: MOVIE_POSTER_HEIGHT)
-                .aspectRatio( contentMode: .fill)
-                .padding(.leading,MARGIN_MEDIUM)
-                .offset(y: MOVIE_POSTER_OFFSET_Y)
+                AsyncImage(url: URL(string: "\(BASE_IMAGE_URL)\(movieDetail?.posterPath ?? "")")!) { phase in
+                switch phase {
+                case .empty:
+                     ProgressView()
+                case .success(let image):
+                     image
+                        .resizable()
+                        
+                        .frame(minWidth: 0, idealWidth: MOVIE_POSTER_WIDTH , maxWidth: MOVIE_POSTER_WIDTH , minHeight: 0, idealHeight: MOVIE_POSTER_HEIGHT , maxHeight: MOVIE_POSTER_HEIGHT)
+                        .aspectRatio(contentMode: .fill)
+                        .clipped()
+                        .padding(.leading,MARGIN_MEDIUM)
+                        .offset(y: MOVIE_POSTER_OFFSET_Y)
+                case .failure:
+                    Image(systemName: "exclamationmark.icloud")
+
+                @unknown default:
+                    EmptyView()
+                }
+
+            }
             
         }
     }
 }
 
+
+//movie label
 struct MovieLabelsView: View {
+    var movieDetail : MovieDetailVO? = nil
     var body: some View {
         VStack(alignment:.leading,spacing: 10.0){
             //movie title and imdb rating row
             HStack {
                 //title
-                Text("Venom")
+                Text(movieDetail?.originalTitle ?? "")
+                    
                     .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                     .multilineTextAlignment(.leading)
+                   
+                    
                     .font(.system(size: TEXT_REGULAR_2X))
                 
                 
                 //imdb rating
                 Image("imdb")
-                Text("9.0")
+                Text("\(String(format:"%.1f",movieDetail?.rating ?? 0.0))")
                     .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                     .font(.system(size: TEXT_REGULAR_2X))
                     .italic()
@@ -202,17 +247,20 @@ struct MovieLabelsView: View {
             
             
             //genre
-            MovieGenreView()
+            MovieGenreView(movieDetail: movieDetail)
             
             
             
             
             
-        }.padding(EdgeInsets(top: MARGIN_MEDIUM_3, leading: UIScreen.main.bounds.width * 0.35, bottom: 0, trailing: 0))
+        }.padding(EdgeInsets(top: 0, leading: UIScreen.main.bounds.width * 0.4, bottom: 0, trailing: 0))
     }
 }
 
-struct MovieInfoSection: View {
+
+//movie info view
+struct MovieInfoView: View {
+    var movieDetail : MovieDetailVO? = nil
     var body: some View {
         HStack(spacing:50){
             
@@ -220,16 +268,18 @@ struct MovieInfoSection: View {
             MovieInfoColumnView(label: LABEL_CENSOR_RATING,value: "U/A")
             
             //Release Date
-            MovieInfoColumnView(label: LABEL_RELEASE_DATE,value: "May 8th 2023")
+            MovieInfoColumnView(label: LABEL_RELEASE_DATE,value: movieDetail?.releaseDate ?? "")
             
             //Duration
-            MovieInfoColumnView(label: LABEL_DURATION,value: "2hr 15min")
+            MovieInfoColumnView(label: LABEL_DURATION,value: "\(movieDetail?.runtime ?? 0) mins")
         }.frame(width: UIScreen.main.bounds.width,height: MARGIN_XXLARGE)
             .padding(.top,UIScreen.main.bounds.height * 0.08)
     }
 }
 
-struct StorylineSection: View {
+//storyline
+struct StorylineView: View {
+    var movieDetail : MovieDetailVO? = nil
     var body: some View {
         VStack(alignment: .leading, spacing:20.0) {
             
@@ -240,7 +290,7 @@ struct StorylineSection: View {
                 .fontWeight(.bold)
             
             //description
-            Text("In the 1970s, young Gru tries to join a group of supervillains called the Vicious 6 after they oust their leader -- the legendary fighter Wild Knuckles. When the interview turns disastrous, Gru and his Minions go on the run with the Vicious 6 hot on their tails. Luckily, he finds an unlikely source for guidance -- Wild Knuckles himself -- and soon discovers that even bad guys need a little help from their friends.")
+            Text(movieDetail?.overview ?? "")
                 .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                 .font(.system(size: TEXT_REGULAR))
                 .fontWeight(.bold)
@@ -251,7 +301,10 @@ struct StorylineSection: View {
     }
 }
 
-struct CastSection: View {
+
+//cast
+struct CastView: View {
+    var movieDetail : MovieDetailVO? = nil
     var body: some View {
         VStack(alignment:.leading,spacing: 20.0){
             //title
@@ -264,10 +317,11 @@ struct CastSection: View {
             ScrollView(.horizontal){
                 
                 HStack(spacing:20) {
-                    ForEach(1...10,id:\.self){
-                        _ in
+                    ForEach(movieDetail?.casts ?? [CastVO](),id:\.self){
+                        cast in
                         
-                        CastCircleImgView(castName: "cast")
+                        //cast img item
+                        CastCircleImgItemView(castProfilePath: cast.profilePath ?? "")
                     }
                 }
                 
@@ -281,6 +335,7 @@ struct CastSection: View {
 
 
 struct MovieGenreView: View {
+    var movieDetail : MovieDetailVO? = nil
     var body: some View {
         HStack{
             
@@ -290,10 +345,10 @@ struct MovieGenreView: View {
             
             LazyHGrid(rows: [GridItem(spacing:20),GridItem()]) {
                 //genres
-                ForEach(1...5,id:\.self){
-                    _ in
+                ForEach(movieDetail?.genres ?? [String](),id:\.self){
+                    genre in
                     //chip
-                    GenreChipItemView(genre: "Action")
+                    GenreChipItemView(genre: genre)
                 }
             }
             
@@ -324,7 +379,7 @@ struct MovieInfoColumnView: View {
 
 
 
-struct SetNotificationSection: View {
+struct SetNotificationView: View {
     
     var body: some View {
         HStack(spacing:5){
@@ -388,13 +443,33 @@ struct GenreChipItemView: View {
     }
 }
 
-struct CastCircleImgView: View {
-    var castName:String = ""
+struct CastCircleImgItemView: View {
+    var castProfilePath:String = ""
     var body: some View {
-        Image(castName)
-            .resizable()
-            .frame(width: MARGIN_XXLARGE,height:MARGIN_XXLARGE)
-            .cornerRadius(MARGIN_XXLARGE)
+
+        
+        AsyncImage(url: URL(string: "\(BASE_IMAGE_URL)\(castProfilePath)")!) { phase in
+        switch phase {
+        case .empty:
+             ProgressView()
+        case .success(let image):
+             image
+                .resizable()
+                
+                .frame(width: MARGIN_XXXLARGE,height:MARGIN_XXXLARGE)
+                .cornerRadius(MARGIN_XXLARGE)
+                
+                
+             
+        case .failure:
+            Image(systemName: "exclamationmark.icloud")
+
+        @unknown default:
+            EmptyView()
+        }
+
+    }
+
     }
 }
 

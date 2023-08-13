@@ -9,19 +9,22 @@ import SwiftUI
 
 struct OTPScreen: View {
     
-    
-    @State var otp:String
+    let mBookingModel : MovieBookingModel = MovieBookingModelImpl.shared
+
+    @State var otp:String = ""
     
     @FocusState var isKeyboardShowing: Bool
     
-    init(otp: String, isKeyboardShowing: Bool) {
-        self.otp = otp
-        self.isKeyboardShowing = isKeyboardShowing
-    }
+    @State var userVO = UserVO()
     
+    @State var isPresented : Bool = false
+
+    var phoneNumber : String
+    
+
     
     var body: some View {
-        NavigationStack {
+
             ZStack{
                 Color(PRIMARY_COLOR)
                 VStack(spacing: 0.0) {
@@ -42,12 +45,24 @@ struct OTPScreen: View {
                     
                     
                     //Confirm btn
-                    NavigationLink {
-                       RegionScreen(locationText: "")
-                    }label: {
-                        LoginBtnView(label: LABEL_CONFIRM_OTP,color: BTN_COLOR)
-                    }
                     
+                    LoginBtnView(label: LABEL_CONFIRM_OTP,color: BTN_COLOR).onTapGesture {
+                        
+                        mBookingModel.signInAndGetUserInfo(phoneNumber: phoneNumber, otp: otp) {  userResponse in
+                         
+                            print("OTP screen : user response \(userResponse.message ?? "")")
+                            if(userResponse.message == "Success"){
+                                self.userVO = userResponse.data ?? UserVO()
+                                self.userVO.token = userResponse.token
+                                isPresented = true
+                                
+                            }
+                        }onFailure: { error in
+                        
+                        }
+                    }
+
+                  
                     
                     
                     
@@ -65,13 +80,22 @@ struct OTPScreen: View {
                     }
                 }
             }.edgesIgnoringSafeArea([.top,.bottom])
-        }
+        
+            
+            .navigationDestination(isPresented: $isPresented) {
+                RegionScreen(userId: self.userVO.id ?? 0)
+            }
+         
+        
+           
     }
+    
+    
 }
 
 struct OTPScreen_Previews: PreviewProvider {
     static var previews: some View {
-        OTPScreen(otp: "", isKeyboardShowing: false)
+        OTPScreen( phoneNumber: "")
     }
 }
 

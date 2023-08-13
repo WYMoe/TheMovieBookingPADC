@@ -10,66 +10,123 @@ import SwiftUI
 struct PaymentScreen: View {
     @State  var nameText:String = ""
     @Environment(\.presentationMode) var presentation
+    
+    let mBookingModel : MovieBookingModel = MovieBookingModelImpl.shared
+    
+    
+    
+    @State var paymentTypes : [PaymentTypeVO]? = nil
+    @State var token : String? = nil
+    
+    var cinema_day_timeslot_id: Int
+    var seat_number: String
+    var booking_date: String
+    var movie_id: Int
+    var payment_type_id: Int = 0
+    @State var isPresented : Bool = false
+    var snacksRequest: [SnackVO]
+    @State var snacksforRawdata : [SnackRequestVO]
+    @State var checkoutData : CheckoutVO? = nil
+    var movieTitle : String
+    var cinemaName : String
+    var status : Int
+    var cityId : Int
+    var cityName : String
     var body: some View {
-        NavigationStack {
-            ZStack{
-                Color.black
+        
+        ZStack{
+            Color.black
+            
+            VStack(spacing:0.0){
                 
-                VStack(spacing:0.0){
+                //appbar
+                PaymentScreenAppbarView(){
+                    presentation.wrappedValue.dismiss()
+                }
+                .padding(.bottom,MARGIN_XLARGE_1)
+                
+                //textfield
+                TextFieldNameView(nameText: $nameText)
+                    .padding(.bottom,MARGIN_XLARGE)
+                
+                //btn
+                ApplyPromocodeBtnView()
+                    .padding(.bottom,MARGIN_XLARGE_1)
+                
+                
+                //choose payment label
+                VStack(alignment: .leading){
+                    Text(LABEL_CHOOSE_PAYMENT)
+                        .foregroundColor(Color(BTN_COLOR))
+                        .font(.system(size: TEXT_REGULAR_2X))
+                        .fontWeight(.bold)
+                        .padding(.bottom,MARGIN_MEDIUM_3)
                     
-                    //appbar
-                    PaymentScreenAppbarView(){
-                        presentation.wrappedValue.dismiss()
-                    }
-                        .padding(.bottom,MARGIN_XLARGE_1)
+                    //paymentmethods
                     
-                    //textfield
-                    TextFielNameView(nameText: $nameText)
-                        .padding(.bottom,MARGIN_XLARGE)
-                    
-                    //btn
-                    NavigationLink{
-                        TicketConfirmationScreen(showPopup: true)
-                    } label:{
-                        ApplyPromocodeBtnView()
-                            .padding(.bottom,MARGIN_XLARGE_1)
-                    }
-                    
-                    VStack(alignment: .leading){
-                        Text(LABEL_CHOOSE_PAYMENT)
-                            .foregroundColor(Color(BTN_COLOR))
-                            .font(.system(size: TEXT_REGULAR_2X))
-                            .fontWeight(.bold)
-                            .padding(.bottom,MARGIN_MEDIUM_3)
-                        
-                   //payment types
-                        PaymentTypeItemView(icon: IC_UPI,label: LABEL_UPI)
-                        PaymentTypeItemView(icon: IC_GIFT,label: LABEL_GIFTVOCHER)
-                        PaymentTypeItemView(icon: IC_PAY,label: LABEL_QUICK_PAY)
-                        PaymentTypeItemView(icon: IC_CARD,label: LABEL_CARD)
-                        PaymentTypeItemView(icon: IC_POINT,label: LABEL_POINT)
-                        PaymentTypeItemView(icon: IC_WALLET,label: LABEL_WALLET)
-                        PaymentTypeItemView(icon: IC_BANKING,label: LABEL_BANKING)
-                              
-                        
+                    ForEach(paymentTypes ?? [], id:\.id) {
+                        paymentType in
+                        PaymentTypeItemView(icon: paymentType.icon ?? "",label: paymentType.title ?? "",id: paymentType.id ?? 0,ontapPayment: {
+                            id in
                             
-                        
+                            //convert from [snackVO] to [snackrequestVO] for rawdata
+                            snacksforRawdata =  snacksRequest.filter({ s in
+                                s.quantity ?? 0 > 0
+                            }).map { snackVO in
+                                return SnackRequestVO(id: snackVO.id,quantity: snackVO.quantity)
+                            }
+                            //checkout
+                            mBookingModel.checkout(token: token ?? "", timeslotId: cinema_day_timeslot_id, seatName: seat_number, date: booking_date, movieId: movie_id, paymentId: id, snacks: snacksforRawdata) { checkoutData in
+                                if(checkoutData.id != nil){
+                                    self.checkoutData = checkoutData
+                                    isPresented = true
+                                }
+                               
+                                
+                            } onFailure: { error in
+                                print(error)
+                                
+                            }
+                        })
                     }
                     
                     
-                }.padding([.leading,.trailing],MARGIN_MEDIUM_3)
+                    
+                }
                 
-            }.edgesIgnoringSafeArea(.all)
-        }.navigationBarBackButtonHidden(true)
+                
+            }.padding([.leading,.trailing],MARGIN_MEDIUM_3)
+            
+        }
+        .edgesIgnoringSafeArea(.all)
+        .navigationDestination(isPresented: $isPresented, destination: {
+            TicketConfirmationScreen(CheckoutData: checkoutData ?? CheckoutVO(),cinemaName: cinemaName,status: status,cityId : cityId,cityName:cityName)
+        })
+        .onAppear{
+            
+            //get token
+            self.token = mBookingModel.getUser().token ?? ""
+            //get payments
+            mBookingModel.getPaymentTypes(token: token ?? "") { paymentTypes in
+                self.paymentTypes = paymentTypes
+            } onFailure: { error in
+                
+            }
+            
+        }
+        .navigationBarBackButtonHidden(true)
+        
     }
+    
 }
 
-struct PaymentScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        PaymentScreen()
-    }
-}
+//struct PaymentScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PaymentScreen()
+//    }
+//}
 
+//appbar
 struct PaymentScreenAppbarView: View {
     var onTapBack:()->Void = {
         
@@ -83,7 +140,7 @@ struct PaymentScreenAppbarView: View {
                 .frame(width: MARGIN_CARD_MEDIUM_2,height: MARGIN_MEDIUM_3)
                 .foregroundColor(Color(PRIMARY_LIGHT_COLOR))
                 .onTapGesture {
-                     onTapBack()
+                    onTapBack()
                 }
             
             Spacer()
@@ -99,6 +156,7 @@ struct PaymentScreenAppbarView: View {
     }
 }
 
+//textfield overlay
 struct PaymentTextFieldOverlay: View {
     var body: some View {
         ZStack(alignment: .topLeading){
@@ -116,7 +174,8 @@ struct PaymentTextFieldOverlay: View {
     }
 }
 
-struct TextFielNameView: View {
+//textfield name
+struct TextFieldNameView: View {
     @Binding var nameText:String
     var body: some View {
         HStack{
@@ -139,6 +198,7 @@ struct TextFielNameView: View {
     }
 }
 
+//promo code btn
 struct ApplyPromocodeBtnView: View {
     var body: some View {
         HStack{
@@ -156,17 +216,39 @@ struct ApplyPromocodeBtnView: View {
     }
 }
 
+
+//payment type item
 struct PaymentTypeItemView: View {
     
     var icon:String = ""
     var label:String = ""
+    var id : Int = 0
+    var ontapPayment : (Int) -> Void = {
+        _ in
+    }
+    
     var body: some View {
         
         HStack{
-            Image(icon)
-                .resizable()
-                .frame(width: MARGIN_XLARGE,height: MARGIN_XLARGE)
             
+            AsyncImage(url: URL(string: icon)!) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: MARGIN_XLARGE,height: MARGIN_XLARGE)
+                    
+                case .failure:
+                    Image(systemName: "exclamationmark.icloud")
+                    
+                @unknown default:
+                    EmptyView()
+                }
+                
+            }
             Text(label)
                 .foregroundColor(.white)
                 .font(.system(size: TEXT_REGULAR))
@@ -176,15 +258,18 @@ struct PaymentTypeItemView: View {
                 .foregroundColor(.white)
             
             
-                
+            
+        }
+        .onTapGesture {
+            ontapPayment(id)
         }
         .padding([.leading,.trailing],MARGIN_MEDIUM)
         .padding([.top,.bottom],MARGIN_CARD_MEDIUM)
-            .overlay{
-                RoundedRectangle(cornerRadius: CORNER_RADIUS_MEDIUM)
-                    .stroke(Color(PRIMARY_DARK_COLOR), lineWidth:1)
-                    .frame(width: 367,height: 50)
-                   
-            }
+        .overlay{
+            RoundedRectangle(cornerRadius: CORNER_RADIUS_MEDIUM)
+                .stroke(Color(PRIMARY_DARK_COLOR), lineWidth:1)
+                .frame(width: 367,height: 50)
+            
+        }
     }
 }

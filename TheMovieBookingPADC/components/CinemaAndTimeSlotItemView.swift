@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct CinemaAndTimeSlotItemView: View {
-    
+    @State var cinema : CinemaVO? = nil
     @State var isTimeSlotsShowing:Bool
-     var isSeparatorShown: Bool
+    var isSeparatorShown: Bool
+    @Binding var isPresented : Bool
+    @Binding var timeslot : TimeSlotVO
+    @Binding var cinemaForCheckout : String
+    
     var body: some View {
         VStack{
           
@@ -18,7 +22,7 @@ struct CinemaAndTimeSlotItemView: View {
             VStack(alignment: .leading,spacing: 0.0) {
                 
                 //cinema name and see details
-                CinemaNameAndSeeDetailsView()
+                CinemaNameAndSeeDetailsView(cinemaName: cinema?.cinema ?? "")
                 
                 //cinema facilities
                 CinemaFacilitiesView()
@@ -30,7 +34,7 @@ struct CinemaAndTimeSlotItemView: View {
                 VStack(alignment: .leading,spacing: 0.0) {
                     
                     //time slot view
-                    TimeSlotView()
+                    TimeSlotView(timeslots: cinema?.timeslots ?? [TimeSlotVO](), isPresented: $isPresented, timeslotBinding: $timeslot)
                         .padding(.top,MARGIN_MEDIUM_3)
                     
                     //long press hint
@@ -46,7 +50,7 @@ struct CinemaAndTimeSlotItemView: View {
                 .onTapGesture {
                     withAnimation{
                         isTimeSlotsShowing.toggle()
-                        
+                        cinemaForCheckout = cinema?.cinema ?? ""
                     }
                 }
                 
@@ -65,17 +69,18 @@ struct CinemaAndTimeSlotItemView: View {
         
     }
 }
-
-struct CinemaAndTimeSlotItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        CinemaAndTimeSlotItemView(isTimeSlotsShowing: true,isSeparatorShown: true)
-    }
-}
+//
+//struct CinemaAndTimeSlotItemView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CinemaAndTimeSlotItemView(isTimeSlotsShowing: true,isSeparatorShown: true, isPresented: false)
+//    }
+//}
 
 struct CinemaNameAndSeeDetailsView: View {
+    var cinemaName : String
     var body: some View {
         HStack{
-            Text("JCGV Junction City")
+            Text(cinemaName)
                 .foregroundColor(Color(.white))
                 .font((.system(size: MARGIN_MEDIUM_2)))
                 .fontWeight(.medium)
@@ -83,7 +88,7 @@ struct CinemaNameAndSeeDetailsView: View {
             Spacer()
             
             NavigationLink{
-                SeatingPlanScreen()
+              // SeatingPlanScreen()
             }label: {
                 Text("See Details")
                     .foregroundColor(Color(BTN_COLOR))
@@ -97,7 +102,7 @@ struct CinemaNameAndSeeDetailsView: View {
 
 struct CinemaFacilitiesView: View {
     var body: some View {
-        HStack(spacing: MARGIN_MEDIUM_2) {
+        HStack(spacing: MARGIN_MEDIUM_1) {
             FacilityItem(icon: IC_PARKGING,label: LABEL_PARKING)
             FacilityItem(icon: IC_SNACK_GRAY,label: LABEL_ONLINE_FOOD)
             FacilityItem(icon: IC_WHEELCHAIR,label: LABEL_WHEELCHAIR)
@@ -109,31 +114,34 @@ struct FacilityItem: View {
     var icon:String = ""
     var label:String = ""
     var body: some View {
-        HStack(spacing: MARGIN_MEDIUM) {
+        HStack(spacing: MARGIN_SMALL) {
             Image(icon)
                 .resizable()
                 .frame(width: MARGIN_MEDIUM_2,height: MARGIN_MEDIUM_2)
             
             Text(label)
                 .foregroundColor(Color(LABEL_COLOR))
+            
         }
     }
 }
 
 struct TimeSlotView: View {
+    var timeslots : [TimeSlotVO]
+    @Binding var isPresented : Bool
+    @Binding var timeslotBinding : TimeSlotVO
     var body: some View {
         LazyVGrid(columns: [GridItem(.flexible(minimum: DATE_BACKGROUND_HEIGHT),spacing: MARGIN_LARGE_1),
                             GridItem(.flexible(minimum: DATE_BACKGROUND_HEIGHT),spacing: MARGIN_LARGE_1),
                             GridItem(.flexible(minimum: DATE_BACKGROUND_HEIGHT),spacing: MARGIN_LARGE_1)]) {
-            ForEach(1...6,id:\.self){
-                number in
-                NavigationLink(value: number) {
-                    
-                    //timeslotitemview
-                    TimeSlotItemView()
-                    
-                    
-                }.buttonStyle(.plain)
+            ForEach(timeslots,id:\.cinemaDayTimeSlotId){
+                timeslot in
+
+                TimeSlotItemView(timeslot: timeslot)
+                    .onTapGesture {
+                        isPresented = true
+                        timeslotBinding = timeslot
+                    }
                     
             }
         }
@@ -141,9 +149,10 @@ struct TimeSlotView: View {
 }
 
 struct TimeSlotItemView: View {
+    var timeslot: TimeSlotVO
     var body: some View {
         VStack(spacing: MARGIN_SMALL) {
-            Text("11:30 PM")
+            Text(timeslot.startTime ?? "")
                 .foregroundColor(.white)
                 .font(.system(size: MARGIN_MEDIUM_1))
             
@@ -151,7 +160,7 @@ struct TimeSlotItemView: View {
                 .foregroundColor(.white)
                 .font(.system(size: MARGIN_CARD_MEDIUM_2))
             
-            Text("Screen 1")
+            Text("Screen \(String(timeslot.status ?? 0))")
                 .foregroundColor(.white)
                 .font(.system(size: MARGIN_CARD_MEDIUM_2))
             

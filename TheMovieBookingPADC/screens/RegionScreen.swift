@@ -8,13 +8,20 @@
 import SwiftUI
 
 struct RegionScreen: View {
-    @State var locationText:String
+    @State var locationText:String = ""
+    @State var userId : Int
+    @State var isPresented : Bool = false
+    @State var cityId : Int = 0
+    @State var cityName : String = ""
+   // let cities = ["Yangon","Mandalay","Naypyidaw","Bago","Mawlamyine"]
     
     
-    let cities = ["Yangon","Mandalay","Naypyidaw","Bago","Mawlamyine"]
+    @State var cities : [CityVO]? = nil
+    @State var userInfo : UserVO? = nil
+    let mBookingModel : MovieBookingModel = MovieBookingModelImpl.shared
+
     var body: some View {
-        //navigation stack
-       NavigationStack {
+       
             
            
            //zstack
@@ -39,7 +46,7 @@ struct RegionScreen: View {
                     
                    
                   //cities
-                   CitiesSection(cities: cities)
+                   CitiesSection(mBookingModel: self.mBookingModel,token: self.userInfo?.token ?? "",cities: cities ?? [],isPresented: $isPresented,cityId:  $cityId,cityName:$cityName)
                         
                     
                   
@@ -48,19 +55,51 @@ struct RegionScreen: View {
 
                
             }.edgesIgnoringSafeArea([.top,.bottom])
+            .onAppear{
+                requestData()
+            }
+            .navigationDestination(isPresented: $isPresented, destination: {
+                MainScreen(selection: 1,cityId: cityId,cityName:cityName)
+            })
                .navigationBarBackButtonHidden(true)
+        
+               
             
+        
+    }
+    
+   
+
+    func requestData(){
+        //get cities
+        mBookingModel.getCities { cities in
+            self.cities = cities
+            
+        } onFailure: { error in
             
         }
+      
+        //get token from database
+        self.userInfo = mBookingModel.getUser()
+        
+        print("region screen: userInfo from db \(self.userInfo ?? UserVO())")
+        
+       
+        
+
+
+        
     }
 }
 
 struct RegionScreen_Previews: PreviewProvider {
     static var previews: some View {
-        RegionScreen(locationText: "")
+        RegionScreen( userId: 0)
     }
 }
 
+
+//title text
 struct TitleTextView: View {
     var body: some View {
         Text(LABEL_PICKREGION)
@@ -71,6 +110,7 @@ struct TitleTextView: View {
     }
 }
 
+//search textfield
 struct SearchTextFieldView: View {
     @Binding var locationText:String
     var body: some View {
@@ -102,6 +142,7 @@ struct SearchTextFieldView: View {
     }
 }
 
+//search btn
 struct SearchBtnView: View {
     @Binding var locationText:String
     var body: some View {
@@ -110,12 +151,12 @@ struct SearchBtnView: View {
             .frame(width: SEARCH_LOCATION_BTN_WIDTH,height: SEARCH_LOCATION_BTN_HEIGHT)
             .background(Color(BTN_COLOR))
             .cornerRadius(SEARCH_LOCATION_BTN_CORNER_RADIUS)
-            .onTapGesture {
-                print(locationText)
-            }
+            
     }
 }
 
+
+//search location section
 struct SearchLocationSection: View {
     @Binding var locationText:String
     var body: some View {
@@ -124,18 +165,18 @@ struct SearchLocationSection: View {
             SearchTextFieldView(locationText:$locationText)
             
             
-            NavigationLink {
-                MainScreen(selection: 1)
-            } label: {
+            NavigationLink{
+             //   MainScreen(selection: 1)
+            }label: {
                 SearchBtnView(locationText: $locationText)
             }
-
             
             
         }.padding(.bottom,MARGIN_XLARGE)
     }
 }
 
+//builing img
 struct BuildingImgView: View {
     var body: some View {
         HStack{
@@ -147,6 +188,8 @@ struct BuildingImgView: View {
     }
 }
 
+
+//cities title
 struct CitiesTitleView: View {
     var body: some View {
         ZStack(alignment:.leading){
@@ -163,6 +206,8 @@ struct CitiesTitleView: View {
     }
 }
 
+
+//city name row view
 struct CityNameView: View {
     var city:String
     var body: some View {
@@ -186,8 +231,15 @@ struct CityNameView: View {
     }
 }
 
+
+//cities
 struct CitiesSection: View {
-    var cities: [String]
+    let mBookingModel : MovieBookingModel
+    var token : String
+    var cities: [CityVO]
+    @Binding var isPresented : Bool
+    @Binding var cityId : Int
+    @Binding var cityName : String
     var body: some View {
         Group {
             
@@ -197,9 +249,27 @@ struct CitiesSection: View {
             
             
             //city name
-            ForEach(cities,id:\.self){ city in
+            ForEach(cities,id:\.id){ city in
                 
-                CityNameView(city: city)
+                
+                CityNameView(city: city.name ?? "").onTapGesture {
+                    mBookingModel.setCity(token: token, cityId: city.id ?? 0) { vo in
+                        print("region screen : set city \(vo.message ?? "")")
+                        
+                        if  vo.message == "Success" {
+                            isPresented = true
+                            cityId = city.id ?? 0
+                            cityName = city.name ?? ""
+
+                        }
+                    } onFailure: { error in
+
+                    }
+                  
+
+                }
+                   
+                
                 
             }
         }
